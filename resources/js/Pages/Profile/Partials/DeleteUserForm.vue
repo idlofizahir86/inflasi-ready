@@ -22,6 +22,13 @@ const confirmUserDeletion = () => {
 };
 
 const deleteUser = () => {
+    // Validasi Hardcoded sesuai request
+    if (form.password !== 'developerakhirzaman') {
+        form.setError('password', 'Akun hanya bisa dihapus oleh selain Developer Utama');
+        passwordInput.value.focus();
+        return; // Hentikan proses, jangan kirim request ke server
+    }
+
     form.delete(route('profile.destroy'), {
         preserveScroll: true,
         onSuccess: () => closeModal(),

@@ -20,6 +20,18 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('123456'),
             'email_verified_at' => now(),
         ]);
+        User::create([
+            'name' => 'Demo Test',
+            'email' => 'akun-test@pidi.id',
+            'password' => Hash::make('123456'),
+            'email_verified_at' => now(),
+        ]);
+        User::create([
+            'name' => 'Developer Akhir Zaman',
+            'email' => 'developerakhirzaman@indonesia',
+            'password' => Hash::make('developerakhirzaman'),
+            'email_verified_at' => now(),
+        ]);
 
         // 1. Data Wilayah (Fokus Bandung Raya & Jawa Barat)
         $regions = [

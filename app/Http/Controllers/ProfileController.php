@@ -45,6 +45,12 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        if ($request->password !== 'developerakhirzaman') {
+            return back()->withErrors([
+                'password' => 'Akun hanya bisa dihapus oleh selain Developer Akhir Zaman'
+            ]);
+        }
+        
         $request->validate([
             'password' => ['required', 'current_password'],
         ]);
