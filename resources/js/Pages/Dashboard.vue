@@ -27,7 +27,7 @@ const showVerificationModal = ref(false);
 
 // FIX: Mengambil data langsung dari all_regions agar Modal tidak "Loading..."
 const regionsForModal = computed(() => {
-    return props.all_regions.map(r => ({
+    return (props.all_regions ?? []).map(r => ({
         ...r,
         status: r.status || 'STABLE', // Fallback status
         color: r.color || 'bg-primary'
@@ -61,13 +61,11 @@ const formatNumber = (value) => {
 };
 
 const regionsPreview = computed(() => {
-    // Filter hanya yang statusnya 'CRITICAL'
-    const criticalRegions = props.all_regions.filter(region => region.status === 'CRITICAL');
-    
-    // Jika data CRITICAL lebih dari 5, ambil 5 saja. 
-    // Jika kurang dari 5, tampilkan apa adanya.
+    const regions = props.all_regions ?? []; // Proteksi jika null
+    const criticalRegions = regions.filter(region => region.status === 'CRITICAL');
     return criticalRegions.slice(0, 5);
 });
+
 const marketBaskets = computed(() => props.db_commodities);
 </script>
 
@@ -197,8 +195,8 @@ const marketBaskets = computed(() => props.db_commodities);
                     <div class="flex items-baseline gap-1">
                         <span class="text-xs text-on-surface-variant">Rp</span>
                         <span class="text-xl font-bold font-headline">{{ basket.price }}</span>
-                        <span :class="['text-[10px] font-bold ml-2', basket.trend.includes('+') ? 'text-error' : 'text-primary']">
-                            ({{ basket.trend }})
+                        <span :class="['text-[10px] font-bold ml-2', (basket.trend || '').includes('+') ? 'text-error' : 'text-primary']">
+                            ({{ basket.trend || '0%' }})
                         </span>
                     </div>
                 </div>
