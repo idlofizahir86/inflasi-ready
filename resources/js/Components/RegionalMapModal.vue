@@ -18,33 +18,42 @@ const emit = defineEmits(['close']);
 const selectedRegion = ref(null);
 
 const regionDetails = computed(() => {
-    const detailsMap = {
-        'DKI Jakarta': {
-            status: 'CRITICAL',
-            inflation: 4.2,
-            topCommodity: 'Cabai Merah',
-            topPrice: '52.400',
-            volatility: '18.2%',
-            markets: 45,
-        },
-        'Jawa Timur': {
-            status: 'WARNING',
-            inflation: 3.1,
-            topCommodity: 'Daging Ayam',
-            topPrice: '38.900',
-            volatility: '9.4%',
-            markets: 78,
-        },
-        'Sumatera Utara': {
-            status: 'STABLE',
-            inflation: 2.3,
-            topCommodity: 'Beras Medium',
-            topPrice: '14.200',
-            volatility: '3.2%',
-            markets: 52,
-        },
+    const found = props.regions.find(r => r.name === selectedRegion.value?.name);
+    
+    if (!found) return null;
+
+    // Ambil data market asli dari database (maksimal 5 untuk feed)
+    const dbMarkets = found.marketList || [];
+
+    return {
+        status: found.status || 'STABLE',
+        inflation: found.inflation || 0,
+        topCommodity: found.top_commodity || 'Beras Medium', 
+        topPrice: found.top_price || '0',
+        volatility: found.volatility || '0%',
+        markets: found.markets_count || 0,
+        
+        /**
+         * Fungsi pembantu agar template <div v-for="n in 5"> 
+         * tetap bekerja tanpa perlu diubah strukturnya.
+         */
+        getMarketInfo: (n) => {
+            const market = dbMarkets[n - 1]; // n dimulai dari 1
+            if (market) {
+                return {
+                    name: market.name,
+                    time: market.time, // Misal: "2h ago" dari diffForHumans
+                    price: market.price // Sudah diformat di Controller
+                };
+            }
+            // Fallback jika data di DB kurang dari 5
+            return {
+                name: `Pasar Cadangan ${String.fromCharCode(64 + n)}`,
+                time: '--',
+                price: '0'
+            };
+        }
     };
-    return detailsMap[selectedRegion.value?.name] || null;
 });
 
 const closeModal = () => {
@@ -55,7 +64,7 @@ const closeModal = () => {
 const getStatusColor = (status) => {
     switch(status) {
         case 'CRITICAL': return 'bg-error/10 text-error';
-        case 'WARNING': return 'bg-orange-100 text-orange-700';
+        case 'MODERATE': return 'bg-orange-100 text-orange-700';
         case 'STABLE': return 'bg-primary/10 text-primary';
         default: return 'bg-slate-100 text-slate-700';
     }
@@ -64,7 +73,7 @@ const getStatusColor = (status) => {
 const getStatusBgColor = (status) => {
     switch(status) {
         case 'CRITICAL': return 'bg-error';
-        case 'WARNING': return 'bg-orange-400';
+        case 'MODERATE': return 'bg-orange-400';
         case 'STABLE': return 'bg-primary';
         default: return 'bg-slate-400';
     }
@@ -175,11 +184,17 @@ const getStatusBgColor = (status) => {
                                         <div v-for="n in 5" :key="n" class="flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-200">
                                             <div class="flex items-center gap-3 flex-1">
                                                 <div class="w-2 h-2 rounded-full bg-primary"></div>
-                                                <span class="text-sm font-medium text-on-surface">Pasar {{ String.fromCharCode(65 + n - 1) }}</span>
+                                                <span class="text-sm font-medium text-on-surface">
+                                                    {{ regionDetails.getMarketData(n).name }}
+                                                </span>
                                             </div>
                                             <div class="flex items-center gap-4">
-                                                <span class="text-xs text-on-surface-variant">{{ Math.floor(Math.random() * 5) + 1 }}h ago</span>
-                                                <span class="text-sm font-bold text-primary">Rp {{ (10000 + Math.random() * 50000).toFixed(0) }}</span>
+                                                <span class="text-xs text-on-surface-variant">
+                                                    {{ regionDetails.getMarketData(n).time }}
+                                                </span>
+                                                <span class="text-sm font-bold text-primary">
+                                                    {{ regionDetails.getMarketData(n).price }}
+                                                </span>
                                             </div>
                                         </div>
                                     </div>

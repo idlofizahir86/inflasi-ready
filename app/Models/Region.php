@@ -13,4 +13,9 @@ class Region extends Model
     {
         return $this->hasMany(Commodity::class);
     }
+
+    public function markets(): HasMany
+    {
+        return $this->hasMany(Market::class);
+    }
 }
