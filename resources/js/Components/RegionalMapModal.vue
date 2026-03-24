@@ -28,7 +28,7 @@ const regionDetails = computed(() => {
             markets: 45,
         },
         'Jawa Timur': {
-            status: 'MODERATE',
+            status: 'WARNING',
             inflation: 3.1,
             topCommodity: 'Daging Ayam',
             topPrice: '38.900',
@@ -55,7 +55,7 @@ const closeModal = () => {
 const getStatusColor = (status) => {
     switch(status) {
         case 'CRITICAL': return 'bg-error/10 text-error';
-        case 'MODERATE': return 'bg-orange-100 text-orange-700';
+        case 'WARNING': return 'bg-orange-100 text-orange-700';
         case 'STABLE': return 'bg-primary/10 text-primary';
         default: return 'bg-slate-100 text-slate-700';
     }
@@ -64,7 +64,7 @@ const getStatusColor = (status) => {
 const getStatusBgColor = (status) => {
     switch(status) {
         case 'CRITICAL': return 'bg-error';
-        case 'MODERATE': return 'bg-orange-400';
+        case 'WARNING': return 'bg-orange-400';
         case 'STABLE': return 'bg-primary';
         default: return 'bg-slate-400';
     }
@@ -125,8 +125,8 @@ const getStatusBgColor = (status) => {
                                 <div class="flex items-start justify-between">
                                     <div>
                                         <h3 class="text-3xl font-bold font-headline text-on-surface mb-2">{{ selectedRegion.name }}</h3>
-                                        <div :class="['inline-block px-4 py-2 rounded-full text-sm font-bold uppercase tracking-widest', getStatusColor(regionDetails.status)]">
-                                            {{ regionDetails.status }}
+                                        <div v-if="regionDetails" :class="['inline-block px-4 py-2 rounded-full text-sm font-bold uppercase tracking-widest', getStatusColor(regionDetails?.status)]">
+                                            {{ regionDetails?.status }}
                                         </div>
                                     </div>
                                     <div :class="['h-16 w-16 rounded-full flex items-center justify-center text-white', getStatusBgColor(regionDetails.status)]">
