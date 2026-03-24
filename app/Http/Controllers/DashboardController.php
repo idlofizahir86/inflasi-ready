@@ -38,19 +38,23 @@ class DashboardController extends Controller
         // Data untuk "Full Report" (Lebih banyak & Unik per Kategori)
         $fullReportItems = $rawItems->unique('name')->values();
 
-        $topItem = $displayItems->first();
+        // CARI TOP RISING: Urutkan berdasarkan trend tertinggi
+        // Kita asumsikan format trend di DB adalah string seperti "+5.2%" atau "-2.1%"
+        $topItem = $rawItems->sortByDesc(function($item) {
+            return (float) str_replace(['+', '%'], '', $item->trend);
+        })->first();
 
         return Inertia::render('Dashboard', [
             'all_regions' => $allRegions,
             'selected_region_id' => $selectedRegionId ?? 'national',
             'stats' => [
                 'inflation' => '3.2%',
-                'region_name' => $selectedRegionId && $selectedRegionId !== 'national' 
-                                 ? $allRegions->find($selectedRegionId)->name 
-                                 : 'Indonesia (Nasional)',
-                'top_name' => $topItem->name ?? 'N/A',
-                'top_price' => number_format($topItem->price ?? 0, 0, ',', '.'),
-                'top_trend' => $topItem->trend ?? 'STABLE',
+                'region_display' => $selectedRegionId && $selectedRegionId !== 'national' 
+                                ? ($allRegions->find($selectedRegionId)->name ?? 'Nasional') 
+                                : 'Indonesia (Nasional)',
+                'top_name' => $topItem->name ?? 'Tidak Ada Data',
+                'top_price' => $topItem->price ?? 0, // Kirim angka mentah saja
+                'top_trend' => $topItem->trend ?? '0%',
             ],
             'db_commodities' => $displayItems->values()->map(fn($item) => $this->formatItem($item)),
             'full_report' => $fullReportItems->map(fn($item) => $this->formatItem($item)),
