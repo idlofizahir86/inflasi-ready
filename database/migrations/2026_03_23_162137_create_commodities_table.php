@@ -17,7 +17,12 @@ return new class extends Migration
             $table->string('category'); // Contoh: Karbohidrat
             $table->decimal('price', 12, 2); // Contoh: 14500.00
             $table->string('unit')->default('kg'); // Satuan: kg, liter, dll
-            $table->enum('status', ['stable', 'rising', 'falling'])->default('stable');
+            $table->enum('status', [
+                'stable',    // Harga normal/tetap
+                'warning',   // Harga mulai naik (waspada)
+                'critical',  // Harga naik tajam/sangat mahal
+                'safe'       // Harga turun atau sangat murah
+            ])->default('stable');
             $table->timestamps();
         });
     }

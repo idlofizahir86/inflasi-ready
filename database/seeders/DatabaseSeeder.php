@@ -58,14 +58,14 @@ class DatabaseSeeder extends Seeder
                 'category' => 'Hortikultura',
                 'price' => 45000,
                 'unit' => 'kg',
-                'status' => 'rising'
+                'status' => 'warning'
             ],
             [
                 'name' => 'Daging Ayam Ras',
                 'category' => 'Protein Hewani',
                 'price' => 38000,
                 'unit' => 'kg',
-                'status' => 'falling'
+                'status' => 'safe'
             ],
             [
                 'name' => 'Telur Ayam Ras',
@@ -86,14 +86,14 @@ class DatabaseSeeder extends Seeder
                 'category' => 'Pemanis',
                 'price' => 17500,
                 'unit' => 'kg',
-                'status' => 'rising'
+                'status' => 'warning'
             ],
             [
                 'name' => 'Bawang Merah',
                 'category' => 'Hortikultura',
                 'price' => 32000,
                 'unit' => 'kg',
-                'status' => 'falling'
+                'status' => 'safe'
             ],
         ];
 
