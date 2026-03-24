@@ -8,6 +8,7 @@ use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class DashboardController extends Controller
 {
@@ -19,7 +20,7 @@ class DashboardController extends Controller
             if ($demoUser) Auth::login($demoUser, true);
         }
 
-        $allRegions = Region::orderBy('name')->get();
+        $allRegions = Region::with(['commodities', 'markets'])->orderBy('name')->get();
         $selectedRegionId = $request->input('region_id'); // Bisa null (Nasional)
 
         // Query Utama Komoditas
@@ -45,7 +46,7 @@ class DashboardController extends Controller
         })->first();
 
         return Inertia::render('Dashboard', [
-            'all_regions' => $allRegions,
+            'all_regions' => $allRegions->map(fn($region) => $this->formatRegionForModal($region)),
             'selected_region_id' => $selectedRegionId ?? 'national',
             'stats' => [
                 'inflation' => '3.2%',
@@ -70,6 +71,57 @@ class DashboardController extends Controller
             'trend' => $item->trend,
             'status' => $item->status,
             'region' => $item->region->name ?? 'Nasional'
+        ];
+    }
+
+    private function formatRegionForModal($region) {
+        // Hitung inflation rate region dari commodity trends
+        $commodities = $region->commodities;
+        $avgInflation = 0;
+        if ($commodities->count() > 0) {
+            $totalTrend = $commodities->sum(function($item) {
+                return (float) str_replace(['+', '%'], '', $item->trend ?? '0');
+            });
+            $avgInflation = round($totalTrend / $commodities->count(), 2);
+        }
+
+        // Ambil top commodity di region ini
+        $topCommodity = $commodities->sortByDesc(function($item) {
+            return (float) str_replace(['+', '%'], '', $item->trend);
+        })->first();
+
+        // Format markets untuk modal
+        $markets = $region->markets()
+            ->latest()
+            ->take(5)
+            ->get()
+            ->map(function($market) {
+                return [
+                    'name' => $market->name,
+                    'price' => 'Rp ' . number_format($market->latest_price, 0, ',', '.'),
+                    'time' => $market->updated_at->diffForHumans(),
+                ];
+            })
+            ->toArray();
+
+        // Volatility calculation dari price variance
+        $priceVariance = $commodities->isEmpty() ? 0 : 
+            round($commodities->avg(function($item) {
+                return abs((float) str_replace(['+', '%'], '', $item->trend ?? '0'));
+            }), 2);
+
+        return [
+            'id' => $region->id,
+            'name' => $region->name,
+            'slug' => $region->slug ?? Str::slug($region->name),
+            'status' => $region->status ?? 'STABLE',
+            'color' => $region->color ?? 'bg-primary',
+            'inflation' => $avgInflation . '%',
+            'volatility' => $priceVariance . '%',
+            'markets_count' => $region->markets()->count(),
+            'top_commodity' => $topCommodity->name ?? 'Tidak Ada Data',
+            'top_price' => $topCommodity ? 'Rp ' . number_format($topCommodity->price, 0, ',', '.') : '0',
+            'marketList' => $markets,
         ];
     }
 

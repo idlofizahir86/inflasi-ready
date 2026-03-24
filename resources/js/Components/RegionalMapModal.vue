@@ -22,35 +22,34 @@ const regionDetails = computed(() => {
     
     if (!found) return null;
 
-    // Ambil data market asli dari database (maksimal 5 untuk feed)
+    // Ambil data market dari database response
     const dbMarkets = found.marketList || [];
 
     return {
         status: found.status || 'STABLE',
-        inflation: found.inflation || 0,
-        topCommodity: found.top_commodity || 'Beras Medium', 
-        topPrice: found.top_price || '0',
+        inflation: found.inflation || '0%',
+        topCommodity: found.top_commodity || 'Tidak Ada Data', 
+        topPrice: found.top_price || 'Rp 0',
         volatility: found.volatility || '0%',
         markets: found.markets_count || 0,
         
         /**
-         * Fungsi pembantu agar template <div v-for="n in 5"> 
-         * tetap bekerja tanpa perlu diubah strukturnya.
+         * Helper function untuk mendapatkan informasi pasar
          */
         getMarketInfo: (n) => {
             const market = dbMarkets[n - 1]; // n dimulai dari 1
             if (market) {
                 return {
                     name: market.name,
-                    time: market.time, // Misal: "2h ago" dari diffForHumans
-                    price: market.price // Sudah diformat di Controller
+                    time: market.time, 
+                    price: market.price
                 };
             }
-            // Fallback jika data di DB kurang dari 5
+            // Fallback jika data kurang dari 5
             return {
                 name: `Pasar Cadangan ${String.fromCharCode(64 + n)}`,
                 time: '--',
-                price: '0'
+                price: 'Rp 0'
             };
         }
     };
