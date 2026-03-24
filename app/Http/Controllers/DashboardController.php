@@ -90,11 +90,10 @@ class DashboardController extends Controller
             return (float) str_replace(['+', '%'], '', $item->trend);
         })->first();
 
-        // Format markets untuk modal
-        $markets = $region->markets()
-            ->latest()
+        // Format markets untuk modal - gunakan collection dari eager-load, bukan query builder
+        $allMarkets = $region->markets;
+        $markets = $allMarkets->sortByDesc('updated_at')
             ->take(5)
-            ->get()
             ->map(function($market) {
                 return [
                     'name' => $market->name,
@@ -102,6 +101,7 @@ class DashboardController extends Controller
                     'time' => $market->updated_at->diffForHumans(),
                 ];
             })
+            ->values()
             ->toArray();
 
         // Volatility calculation dari price variance
@@ -118,9 +118,9 @@ class DashboardController extends Controller
             'color' => $region->color ?? 'bg-primary',
             'inflation' => $avgInflation . '%',
             'volatility' => $priceVariance . '%',
-            'markets_count' => $region->markets()->count(),
+            'markets_count' => $allMarkets->count(),
             'top_commodity' => $topCommodity->name ?? 'Tidak Ada Data',
-            'top_price' => $topCommodity ? 'Rp ' . number_format($topCommodity->price, 0, ',', '.') : '0',
+            'top_price' => $topCommodity ? 'Rp ' . number_format($topCommodity->price, 0, ',', '.') : 'Rp 0',
             'marketList' => $markets,
         ];
     }

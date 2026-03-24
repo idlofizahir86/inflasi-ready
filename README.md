@@ -68,7 +68,7 @@ npm run build
 php artisan serve
 ```
 
-Akses aplikasi di `http://localhost:8000`
+Akses aplikasi di `https://inflasi-ready-mvp.up.railway.app`
 
 ### 📝 Demo Account
 ```
@@ -107,26 +107,26 @@ Password: 123456
 Dokumentasi lengkap tersedia dalam berbagai format. **Mulai di sini sesuai kebutuhan Anda:**
 
 ### 👤 Untuk Pengguna Akhir
-1. **[QUICK_START.md](QUICK_START.md)** - Panduan cepat setup dan penggunaan
-2. **[IMPLEMENTATION_COMPLETE.md](IMPLEMENTATION_COMPLETE.md)** - Penjelasan setiap fitur
+1. **[QUICK_START.md](resources/markdown/QUICK_START.md)** - Panduan cepat setup dan penggunaan
+2. **[IMPLEMENTATION_COMPLETE.md](resources/markdown/IMPLEMENTATION_COMPLETE.md)** - Penjelasan setiap fitur
 
 ### 👨‍💻 Untuk Developer
-1. **[FILE_INDEX.md](FILE_INDEX.md)** - Struktur kode dan navigasi
-2. **[IMPLEMENTATION_COMPLETE.md](IMPLEMENTATION_COMPLETE.md)** - Detail teknis implementasi
-3. **[LOGIN_FIX_REPORT.md](LOGIN_FIX_REPORT.md)** - Sistem authentication
+1. **[FILE_INDEX.md](resources/markdown/FILE_INDEX.md)** - Struktur kode dan navigasi
+2. **[IMPLEMENTATION_COMPLETE.md](resources/markdown/IMPLEMENTATION_COMPLETE.md)** - Detail teknis implementasi
+3. **[LOGIN_FIX_REPORT.md](resources/markdown/LOGIN_FIX_REPORT.md)** - Sistem authentication
 
 ### 🚀 Untuk DevOps/Admin
-1. **[DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)** - Panduan deployment ke production
-2. **[LOGIN_FIX_REPORT.md](LOGIN_FIX_REPORT.md)** - Setup database & user
-3. **[QUICK_START.md](QUICK_START.md)** - Instalasi cepat
+1. **[DEPLOYMENT_GUIDE.md](resources/markdown/DEPLOYMENT_GUIDE.md)** - Panduan deployment ke production
+2. **[LOGIN_FIX_REPORT.md](resources/markdown/LOGIN_FIX_REPORT.md)** - Setup database & user
+3. **[QUICK_START.md](resources/markdown/QUICK_START.md)** - Instalasi cepat
 
 ### 📊 Untuk Project Manager/Stakeholder
-1. **[EXECUTIVE_SUMMARY.md](EXECUTIVE_SUMMARY.md)** - Ringkasan eksekutif proyek
-2. **[SESSION_SUMMARY.md](SESSION_SUMMARY.md)** - Overview sesi pengembangan
-3. **[FINAL_VERIFICATION_DASHBOARD.md](FINAL_VERIFICATION_DASHBOARD.md)** - Status & metrik sistem
+1. **[EXECUTIVE_SUMMARY.md](resources/markdown/EXECUTIVE_SUMMARY.md)** - Ringkasan eksekutif proyek
+2. **[SESSION_SUMMARY.md](resources/markdown/SESSION_SUMMARY.md)** - Overview sesi pengembangan
+3. **[FINAL_VERIFICATION_DASHBOARD.md](resources/markdown/FINAL_VERIFICATION_DASHBOARD.md)** - Status & metrik sistem
 
 ### 📖 Untuk Navigasi Lengkap
-- **[DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)** - Index lengkap semua dokumentasi
+- **[DOCUMENTATION_INDEX.md](resources/markdown/DOCUMENTATION_INDEX.md)** - Index lengkap semua dokumentasi
 
 ---
 

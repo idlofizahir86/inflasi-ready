@@ -33,94 +33,18 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
-        // 1. Data Wilayah (Fokus Bandung Raya & Jawa Barat)
-        $regions = [
-            ['name' => 'Kota Bandung'],
-            ['name' => 'Kabupaten Bandung'],
-            ['name' => 'Kota Cimahi'],
-            ['name' => 'Kabupaten Bandung Barat'],
-            ['name' => 'Sumedang'],
-            ['name' => 'Garut'],
-        ];
-
-        foreach ($regions as $reg) {
-            $region = Region::create([
-                'name' => $reg['name'],
-                'slug' => Str::slug($reg['name']),
-            ]);
-
-            // 2. Data Komoditas untuk setiap Wilayah
-            // Kita buat variasi harga sedikit berbeda antar wilayah agar grafik nanti terlihat dinamis
-            $this->seedCommoditiesForRegion($region);
-        }
+        // 1. Jalankan RegionSeeder untuk membuat semua 38 provinces
+        $this->call(RegionSeeder::class);
+        
+        // 2. Jalankan CommoditySeeder untuk membuat commodities di semua regions
+        $this->call(CommoditySeeder::class);
+        
+        // 3. Jalankan MarketSeeder untuk membuat markets di semua regions
+        $this->call(MarketSeeder::class);
     }
 
     private function seedCommoditiesForRegion($region)
     {
-        $baseCommodities = [
-            [
-                'name' => 'Beras Medium',
-                'category' => 'Pangan Pokok',
-                'price' => 14500,
-                'unit' => 'kg',
-                'status' => 'stable'
-            ],
-            [
-                'name' => 'Cabai Merah Keriting',
-                'category' => 'Hortikultura',
-                'price' => 45000,
-                'unit' => 'kg',
-                'status' => 'warning'
-            ],
-            [
-                'name' => 'Daging Ayam Ras',
-                'category' => 'Protein Hewani',
-                'price' => 38000,
-                'unit' => 'kg',
-                'status' => 'safe'
-            ],
-            [
-                'name' => 'Telur Ayam Ras',
-                'category' => 'Protein Hewani',
-                'price' => 29500,
-                'unit' => 'kg',
-                'status' => 'stable'
-            ],
-            [
-                'name' => 'Minyak Goreng Kita',
-                'category' => 'Minyak & Lemak',
-                'price' => 15700,
-                'unit' => 'liter',
-                'status' => 'stable'
-            ],
-            [
-                'name' => 'Gula Pasir Kristal',
-                'category' => 'Pemanis',
-                'price' => 17500,
-                'unit' => 'kg',
-                'status' => 'warning'
-            ],
-            [
-                'name' => 'Bawang Merah',
-                'category' => 'Hortikultura',
-                'price' => 32000,
-                'unit' => 'kg',
-                'status' => 'safe'
-            ],
-        ];
-
-        foreach ($baseCommodities as $item) {
-            // Memberikan variasi harga acak +/- 5% antar wilayah agar data tidak identik
-            $variation = rand(-500, 1000);
-            
-            Commodity::create([
-                'region_id' => $region->id,
-                'name' => $item['name'],
-                'category' => $item['category'],
-                'price' => $item['price'] + $variation,
-                'unit' => $item['unit'],
-                'status' => $item['status'],
-            ]);
-        }
+        // This method is no longer used - moved to CommoditySeeder
     }
 }
