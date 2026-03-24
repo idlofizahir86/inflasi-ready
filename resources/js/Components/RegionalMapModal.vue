@@ -185,15 +185,15 @@ const getStatusBgColor = (status) => {
                                             <div class="flex items-center gap-3 flex-1">
                                                 <div class="w-2 h-2 rounded-full bg-primary"></div>
                                                 <span class="text-sm font-medium text-on-surface">
-                                                    {{ regionDetails.getMarketData(n).name }}
+                                                    {{ regionDetails?.getMarketInfo(n).name }}
                                                 </span>
                                             </div>
                                             <div class="flex items-center gap-4">
                                                 <span class="text-xs text-on-surface-variant">
-                                                    {{ regionDetails.getMarketData(n).time }}
+                                                    {{ regionDetails?.getMarketInfo(n).time }}
                                                 </span>
                                                 <span class="text-sm font-bold text-primary">
-                                                    {{ regionDetails.getMarketData(n).price }}
+                                                    {{ regionDetails?.getMarketInfo(n).price }}
                                                 </span>
                                             </div>
                                         </div>
