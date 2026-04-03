@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Region;
 use App\Models\Commodity;
+use App\Models\Supplier;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -41,6 +42,8 @@ class DatabaseSeeder extends Seeder
         
         // 3. Jalankan MarketSeeder untuk membuat markets di semua regions
         $this->call(MarketSeeder::class);
+
+        $this->call(SupplierSeeder::class);
     }
 
     private function seedCommoditiesForRegion($region)
