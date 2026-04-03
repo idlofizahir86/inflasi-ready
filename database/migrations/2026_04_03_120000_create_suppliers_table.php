@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('lokasi');
             $table->string('kontak')->nullable();
             $table->decimal('coordinate_lat', 10, 8)->nullable();
-            $table->decimal('coordinate_long', 10, 8)->nullable();
+            $table->decimal('coordinate_long', 11, 8)->nullable();
             $table->boolean('is_verified')->default(false);
             $table->enum('price_update_frequency', ['daily', 'weekly'])->default('weekly');
             $table->decimal('rating', 3, 2)->nullable();
