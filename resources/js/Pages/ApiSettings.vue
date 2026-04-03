@@ -4,25 +4,25 @@ import StitchLayout from '@/Layouts/StitchLayout.vue';
 import DocumentationModal from '@/Components/DocumentationModal.vue';
 import UsageLogModal from '@/Components/UsageLogModal.vue';
 import { Head } from '@inertiajs/vue3';
+import { useTranslation } from '@/composables/useTranslation';
 
-// State untuk API Key
-const apiKey = ref('ir_live_8842_2024_agri_secure_9x');
+const { t } = useTranslation();
+
+const apiKey = ref('ad_live_8842_2024_data_secure_9x');
 const copied = ref(false);
 const showDocModal = ref(false);
 const showUsageModal = ref(false);
 
-// Fungsi Copy to Clipboard
 const copyToClipboard = async () => {
     try {
         await navigator.clipboard.writeText(apiKey.value);
         copied.value = true;
         setTimeout(() => (copied.value = false), 2000);
     } catch (err) {
-        console.error('Gagal menyalin teks: ', err);
+        console.error('Failed to copy: ', err);
     }
 };
 
-// Data Mock untuk Dokumentasi & Dataset
 const endpoints = [
     { method: 'GET', path: '/prices/daily', desc: 'Fetch the latest national average prices for strategic commodities.', icon: 'monitoring', color: 'bg-sky-100 text-sky-700' },
     { method: 'GET', path: '/regional/distribution', desc: 'Access province-level pricing data with historical volatility mapping.', icon: 'map', color: 'bg-sky-100 text-sky-700' },
@@ -36,19 +36,18 @@ const datasets = [
 </script>
 
 <template>
-    <Head title="API & Developer Portal - Inflasi-Ready" />
+    <Head :title="t('API & Data Integration')" />
 
     <StitchLayout>
         <div class="max-w-7xl mx-auto">
             <header class="mb-12">
                 <div class="flex items-center gap-2 text-primary-container mb-2">
                     <span class="material-symbols-outlined text-sm">terminal</span>
-                    <span class="text-xs font-bold tracking-widest uppercase font-label">Developer Resources</span>
+                    <span class="text-xs font-bold tracking-widest uppercase font-label">{{ t('Developer Resources') }}</span>
                 </div>
-                <h2 class="text-4xl font-extrabold font-headline tracking-tight text-on-surface mb-4">API & Data Integration</h2>
+                <h2 class="text-4xl font-extrabold font-headline tracking-tight text-on-surface mb-4">{{ t('API & Data Integration') }}</h2>
                 <p class="text-on-surface-variant max-w-2xl font-body leading-relaxed">
-                    Build resilient economic models with Indonesia's most accurate real-time commodity data feed. 
-                    Our high-frequency endpoints provide granular insights into market volatility.
+                    {{ t('Build resilient economic models') }}
                 </p>
             </header>
 
@@ -60,14 +59,14 @@ const datasets = [
                             <div class="p-3 bg-secondary-fixed rounded-lg text-on-secondary-fixed">
                                 <span class="material-symbols-outlined">key</span>
                             </div>
-                            <h3 class="font-headline font-bold text-lg">Authentication</h3>
+                            <h3 class="font-headline font-bold text-lg">{{ t('Authentication') }}</h3>
                         </div>
                         <p class="text-sm text-on-surface-variant mb-6 font-body">
-                            Use this key in the header <code class="bg-surface-container-high px-1 rounded">X-API-KEY</code> for all authorized requests.
+                            {{ t('Use this key in the header') }} <code class="bg-surface-container-high px-1 rounded">X-API-KEY</code> {{ t('for all authorized requests') }}.
                         </p>
                         
                         <div class="space-y-4">
-                            <div class="text-xs font-label text-on-surface-variant mb-2 font-bold uppercase tracking-wider">Production API Key</div>
+                            <div class="text-xs font-label text-on-surface-variant mb-2 font-bold uppercase tracking-wider">{{ t('Production API Key') }}</div>
                             <div class="flex items-center justify-between bg-surface-container-high p-4 rounded-lg group">
                                 <code class="text-xs font-mono font-medium truncate text-primary-container">{{ apiKey }}</code>
                                 <button @click="copyToClipboard" class="p-2 hover:bg-white rounded-md transition-colors text-primary cursor-pointer active:scale-90">
@@ -76,13 +75,13 @@ const datasets = [
                             </div>
                             <div class="flex gap-2 items-center mt-4">
                                 <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                                <span class="text-[10px] text-on-surface-variant font-medium">Last active 2 minutes ago</span>
+                                <span class="text-[10px] text-on-surface-variant font-medium">{{ t('Last active') }} 2 {{ t('minutes ago') }}</span>
                             </div>
                         </div>
 
                         <div class="mt-8 pt-8 border-t border-slate-100">
                             <button class="w-full bg-gradient-to-br from-primary to-primary-container text-white py-3 rounded-lg font-headline font-semibold text-sm shadow-md hover:shadow-lg transition-all active:scale-95">
-                                Regenerate Key
+                                {{ t('Regenerate Key') }}
                             </button>
                         </div>
                     </section>
@@ -130,9 +129,9 @@ const datasets = [
                 <div class="col-span-12 lg:col-span-7">
                     <section class="bg-surface-container-low p-8 rounded-xl h-full">
                         <div class="flex items-center justify-between mb-8">
-                            <h3 class="font-headline font-bold text-xl">Documentation Overview</h3>
+                            <h3 class="font-headline font-bold text-xl">{{ t('Documentation Overview') }}</h3>
                             <button @click="showDocModal = true" class="px-4 py-2 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary-container transition">
-                                View Full Docs
+                                {{ t('View Full Docs') }}
                             </button>
                         </div>
                         <div class="space-y-4">
@@ -159,12 +158,12 @@ const datasets = [
                     <section class="bg-white p-8 rounded-xl border border-outline-variant/20 h-full flex flex-col justify-between shadow-sm">
                         <div>
                             <div class="flex items-center justify-between mb-2">
-                                <h3 class="font-headline font-bold text-xl">Raw Datasets</h3>
+                                <h3 class="font-headline font-bold text-xl">{{ t('Raw Datasets') }}</h3>
                                 <button @click="showUsageModal = true" class="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200 transition">
-                                    View Logs
+                                    {{ t('View Logs') }}
                                 </button>
                             </div>
-                            <p class="text-sm text-on-surface-variant mb-8 font-body">Download comprehensive historical records for offline analysis.</p>
+                            <p class="text-sm text-on-surface-variant mb-8 font-body">{{ t('Download comprehensive historical records for offline analysis.') }}</p>
                             
                             <div class="space-y-6">
                                 <div v-for="file in datasets" :key="file.name" class="flex items-center justify-between p-4 bg-surface rounded-lg">
@@ -177,19 +176,19 @@ const datasets = [
                                     </div>
                                     <button class="flex items-center gap-2 bg-secondary-container text-white px-4 py-2 rounded-lg text-xs font-semibold hover:bg-secondary transition-colors active:scale-95">
                                         <span class="material-symbols-outlined text-sm">download</span>
-                                        Download
+                                        {{ t('Download') }}
                                     </button>
                                 </div>
                             </div>
                         </div>
 
                         <div class="mt-8 bg-primary-fixed p-6 rounded-lg">
-                            <h4 class="font-headline font-bold text-on-primary-fixed mb-2 text-sm">Need a Custom Feed?</h4>
+                            <h4 class="font-headline font-bold text-on-primary-fixed mb-2 text-sm">{{ t('Need a Custom Feed?') }}</h4>
                             <p class="text-[11px] text-on-primary-fixed-variant mb-4 font-body leading-relaxed">
-                                Enterprise partners can request dedicated pipelines for high-frequency monitoring.
+                                {{ t('Enterprise partners can request dedicated pipelines for high-frequency monitoring.') }}
                             </p>
                             <a href="#" class="text-xs font-bold text-primary-container flex items-center gap-1 hover:underline">
-                                Contact Enterprise Support
+                                {{ t('Contact Enterprise Support') }}
                                 <span class="material-symbols-outlined text-sm">arrow_forward</span>
                             </a>
                         </div>
@@ -199,7 +198,7 @@ const datasets = [
             </div>
 
             <footer class="mt-24 pb-12 text-center">
-                <p class="text-[10px] text-on-surface-variant font-bold tracking-widest uppercase mb-4">Integrity in every byte</p>
+                <p class="text-[10px] text-on-surface-variant font-bold tracking-widest uppercase mb-4">{{ t('Integrity in every byte') }}</p>
                 <div class="flex justify-center gap-8 items-center grayscale opacity-50">
                     <div class="w-12 h-6 bg-slate-300 rounded"></div> <div class="w-12 h-6 bg-slate-300 rounded"></div>
                     <div class="w-12 h-6 bg-slate-300 rounded"></div>

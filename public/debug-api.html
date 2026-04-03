@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Debug</title>
+    <style>
+        body { font-family: monospace; padding: 20px; }
+        .response { background: #f0f0f0; padding: 10px; margin: 10px 0; border-left: 4px solid #007bff; }
+        .error { border-left-color: #dc3545; }
+        button { padding: 8px 15px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>API Debugging</h1>
+    
+    <div>
+        <h3>Test Chat API</h3>
+        <button onclick="testChat()">Send Chat Message</button>
+        <div id="chatResponse" class="response" style="display:none;"></div>
+    </div>
+
+    <div>
+        <h3>Test Extract Story API</h3>
+        <button onclick="testExtractStory()">Extract Story</button>
+        <div id="storyResponse" class="response" style="display:none;"></div>
+    </div>
+
+    <script>
+        // Get CSRF token
+        function getCsrfToken() {
+            return document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+        }
+
+        // Log response
+        function logResponse(elementId, data, error = false) {
+            const el = document.getElementById(elementId);
+            el.className = 'response' + (error ? ' error' : '');
+            el.textContent = JSON.stringify(data, null, 2);
+            el.style.display = 'block';
+        }
+
+        // Test Chat
+        async function testChat() {
+            try {
+                const response = await fetch('/simulation/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': getCsrfToken(),
+                    },
+                    body: JSON.stringify({
+                        message: 'Halo, bagaimana kabar Anda?',
+                        conversation_history: []
+                    })
+                });
+
+                const data = await response.json();
+                logResponse('chatResponse', {
+                    status: response.status,
+                    ok: response.ok,
+                    data: data
+                }, !response.ok);
+            } catch (error) {
+                logResponse('chatResponse', {
+                    error: error.message,
+                    type: error.constructor.name
+                }, true);
+            }
+        }
+
+        // Test Extract Story
+        async function testExtractStory() {
+            try {
+                const response = await fetch('/simulation/extract-story', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': getCsrfToken(),
+                    },
+                    body: JSON.stringify({
+                        story: 'Saya adalah pedagang daging sapi. Harga daging telah naik 20% bulan ini. Biaya operasional saya mencapai Rp 5 juta per bulan.'
+                    })
+                });
+
+                const data = await response.json();
+                logResponse('storyResponse', {
+                    status: response.status,
+                    ok: response.ok,
+                    data: data
+                }, !response.ok);
+            } catch (error) {
+                logResponse('storyResponse', {
+                    error: error.message,
+                    type: error.constructor.name
+                }, true);
+            }
+        }
+    </script>
+</body>
+</html>

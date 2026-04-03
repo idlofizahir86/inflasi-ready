@@ -13,11 +13,14 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->web(append: [
+            \App\Http\Middleware\SetLocale::class,
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
         ]);
-
-        //
+        
+        // Handle CSRF token validation for API endpoints
+        // The framework automatically handles CSRF for web routes
+        // We can configure exceptions if needed in the future
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

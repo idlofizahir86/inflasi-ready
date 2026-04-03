@@ -1,5 +1,8 @@
 <script setup>
 import { ref } from 'vue';
+import { useTranslation } from '@/composables/useTranslation';
+
+const { t } = useTranslation();
 
 defineProps({
     isOpen: Boolean,
@@ -18,7 +21,7 @@ const endpoints = [
             { name: 'limit', type: 'integer', required: false, description: 'Max records (default: 100)' },
             { name: 'offset', type: 'integer', required: false, description: 'Pagination offset' },
         ],
-        example: 'curl -H "X-API-KEY: your_key" https://api.inflasi-ready.id/prices/daily?limit=10',
+        example: 'curl -H "X-API-KEY: your_key" https://api.arthadata.id/prices/daily?limit=10',
     },
     {
         method: 'GET',
@@ -28,7 +31,7 @@ const endpoints = [
             { name: 'region', type: 'string', required: true, description: 'Region name' },
             { name: 'commodity', type: 'string', required: false, description: 'Commodity filter' },
         ],
-        example: 'curl -H "X-API-KEY: your_key" https://api.inflasi-ready.id/regional/distribution?region=Jawa%20Barat',
+        example: 'curl -H "X-API-KEY: your_key" https://api.arthadata.id/regional/distribution?region=Jawa%20Barat',
     },
     {
         method: 'POST',
@@ -38,7 +41,7 @@ const endpoints = [
             { name: 'webhook_url', type: 'string', required: true, description: 'Your webhook endpoint' },
             { name: 'threshold', type: 'number', required: true, description: 'Price change threshold %' },
         ],
-        example: 'curl -X POST -H "X-API-KEY: your_key" -d "webhook_url=https://your.site/webhook&threshold=10" https://api.inflasi-ready.id/webhooks/alerts',
+        example: 'curl -X POST -H "X-API-KEY: your_key" -d "webhook_url=https://your.site/webhook&threshold=10" https://api.arthadata.id/webhooks/alerts',
     },
 ];
 
@@ -55,8 +58,8 @@ const copyToClipboard = (text) => {
                     <!-- Header -->
                     <div class="sticky top-0 bg-gradient-to-r from-sky-600 to-sky-700 px-8 py-6 flex justify-between items-center rounded-t-2xl">
                         <div>
-                            <p class="text-xs font-bold text-sky-100 uppercase tracking-widest">API Reference</p>
-                            <h3 class="text-2xl font-headline font-bold text-white">Documentation</h3>
+                            <p class="text-xs font-bold text-sky-100 uppercase tracking-widest">{{ t('API Reference') }}</p>
+                            <h3 class="text-2xl font-headline font-bold text-white">{{ t('Documentation') }}</h3>
                         </div>
                         <button @click="$emit('close')" class="p-2 hover:bg-sky-500/30 rounded-lg transition text-white">
                             <span class="material-symbols-outlined">close</span>
@@ -66,14 +69,14 @@ const copyToClipboard = (text) => {
                     <!-- Content -->
                     <div class="p-8 space-y-8">
                         <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
-                            <h4 class="font-bold text-blue-900 mb-2">📚 API Documentation</h4>
-                            <p class="text-sm text-blue-800">Base URL: <code class="bg-white px-2 py-1 rounded">https://api.inflasi-ready.id/v1</code></p>
-                            <p class="text-sm text-blue-800 mt-2">Authentication: <code class="bg-white px-2 py-1 rounded">Header: X-API-KEY</code></p>
+                            <h4 class="font-bold text-blue-900 mb-2">📚 {{ t('Documentation') }}</h4>
+                            <p class="text-sm text-blue-800">Base URL: <code class="bg-white px-2 py-1 rounded">https://api.arthadata.id/v1</code></p>
+                            <p class="text-sm text-blue-800 mt-2">{{ t('Authentication') }}: <code class="bg-white px-2 py-1 rounded">Header: X-API-KEY</code></p>
                         </div>
 
                         <!-- Endpoint List -->
                         <div>
-                            <h4 class="font-bold text-slate-900 mb-4">Available Endpoints</h4>
+                            <h4 class="font-bold text-slate-900 mb-4">{{ t('Available Endpoints') }}</h4>
                             <div class="space-y-3">
                                 <button 
                                     v-for="(ep, idx) in endpoints" 
@@ -100,7 +103,7 @@ const copyToClipboard = (text) => {
                             <h4 class="font-bold text-slate-900">{{ endpoints[selectedEndpoint].path }}</h4>
                             
                             <div>
-                                <p class="text-sm font-bold text-slate-700 mb-2">Parameters:</p>
+                                <p class="text-sm font-bold text-slate-700 mb-2">{{ t('Parameters') }}:</p>
                                 <div class="space-y-2">
                                     <div v-for="param in endpoints[selectedEndpoint].params" :key="param.name" class="bg-white p-3 rounded border border-slate-200">
                                         <p class="font-mono text-xs font-bold text-sky-600">{{ param.name }}<span v-if="param.required" class="text-red-600"> *</span></p>
@@ -110,7 +113,7 @@ const copyToClipboard = (text) => {
                             </div>
 
                             <div>
-                                <p class="text-sm font-bold text-slate-700 mb-2">Example:</p>
+                                <p class="text-sm font-bold text-slate-700 mb-2">{{ t('Example') }}:</p>
                                 <div class="bg-slate-800 text-slate-100 p-4 rounded font-mono text-xs overflow-x-auto flex items-center justify-between">
                                     <code>{{ endpoints[selectedEndpoint].example }}</code>
                                     <button @click="copyToClipboard(endpoints[selectedEndpoint].example)" class="ml-4 p-2 hover:bg-slate-700 rounded transition">
@@ -124,7 +127,7 @@ const copyToClipboard = (text) => {
                     <!-- Footer -->
                     <div class="sticky bottom-0 px-8 py-6 bg-slate-50 border-t border-slate-100 flex gap-3 justify-end rounded-b-2xl">
                         <button @click="$emit('close')" class="px-6 py-2.5 border border-slate-200 text-slate-700 font-bold rounded-lg hover:bg-slate-100 transition">
-                            Close
+                            {{ t('Close') }}
                         </button>
                     </div>
                 </div>

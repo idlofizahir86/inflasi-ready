@@ -8,38 +8,114 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
+const sidebarOpen = ref(true);
+
+// Menu items untuk sidebar
+const menuItems = [
+    {
+        name: 'Dashboard',
+        route: 'dashboard',
+        icon: '📊',
+        current: () => route().current('dashboard')
+    },
+    {
+        name: 'Data Center',
+        route: 'datacenter',
+        icon: '🗄️',
+        current: () => route().current('datacenter')
+    },
+    {
+        name: 'Simulasi',
+        route: 'simulation',
+        icon: '🔄',
+        current: () => route().current('simulation*')
+    },
+    {
+        name: 'Supplier',
+        route: 'simulation.suppliers',
+        icon: '🏭',
+        current: () => route().current('simulation.suppliers') || route().current('simulator.suppliers')
+    },
+    {
+        name: 'API Settings',
+        route: 'api-settings',
+        icon: '⚙️',
+        current: () => route().current('api-settings')
+    },
+    {
+        name: 'Support',
+        route: 'support',
+        icon: '❓',
+        current: () => route().current('support')
+    }
+];
 </script>
 
 <template>
-    <div>
-        <div class="min-h-screen bg-gray-100">
-            <nav
-                class="border-b border-gray-100 bg-white"
-            >
-                <!-- Primary Navigation Menu -->
-                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div class="flex h-16 justify-between">
-                        <div class="flex">
-                            <!-- Logo -->
-                            <div class="flex shrink-0 items-center">
-                                <Link :href="route('dashboard')">
-                                    <ApplicationLogo
-                                        class="block h-9 w-auto fill-current text-gray-800"
-                                    />
-                                </Link>
-                            </div>
+    <div class="flex min-h-screen bg-gray-100">
+        <!-- Sidebar -->
+        <div
+            :class="sidebarOpen ? 'w-64' : 'w-20'"
+            class="sticky top-0 h-screen bg-gradient-to-b from-gray-800 to-gray-900 text-white shadow-lg transition-all duration-300"
+        >
+            <!-- Logo Section -->
+            <div class="flex h-16 items-center justify-between px-4">
+                <Link :href="route('dashboard')" v-if="sidebarOpen">
+                    <ApplicationLogo class="h-9 w-auto fill-current" />
+                </Link>
+                <button
+                    @click="sidebarOpen = !sidebarOpen"
+                    class="rounded-lg p-2 hover:bg-gray-700 transition-colors"
+                >
+                    <svg
+                        class="h-5 w-5"
+                        :class="sidebarOpen ? '' : 'rotate-180'"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+            </div>
 
-                            <!-- Navigation Links -->
-                            <div
-                                class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
-                            >
-                                <NavLink
-                                    :href="route('dashboard')"
-                                    :active="route().current('dashboard')"
-                                >
-                                    Dashboard
-                                </NavLink>
-                            </div>
+            <!-- Navigation Menu -->
+            <nav class="mt-8 space-y-2 px-2">
+                <Link
+                    v-for="item in menuItems"
+                    :key="item.route"
+                    :href="route(item.route)"
+                    :class="[
+                        item.current()
+                            ? 'bg-indigo-600 text-white'
+                            : 'text-gray-300 hover:bg-gray-700',
+                        'group flex items-center rounded-lg px-4 py-2 text-sm font-medium transition-colors'
+                    ]"
+                >
+                    <span class="text-xl" :class="sidebarOpen ? 'mr-3' : ''">{{ item.icon }}</span>
+                    <span v-if="sidebarOpen">{{ item.name }}</span>
+                </Link>
+            </nav>
+
+            <!-- Footer -->
+            <div class="absolute bottom-0 left-0 right-0 border-t border-gray-700 p-4">
+                <div v-if="sidebarOpen" class="mb-4">
+                    <p class="text-xs font-semibold text-gray-400 uppercase">Version</p>
+                    <p class="text-sm font-medium">1.0.0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col">
+            <!-- Top Navigation Bar -->
+            <nav class="border-b border-gray-200 bg-white shadow-sm">
+                <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
+                    <div class="flex h-16 justify-between">
+                        <div class="flex items-center">
+                            <h1 v-if="$slots.header" class="text-lg font-semibold text-gray-900">
+                                <!-- Page title goes here -->
+                            </h1>
                         </div>
 
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">
@@ -88,13 +164,10 @@ const showingNavigationDropdown = ref(false);
                             </div>
                         </div>
 
-                        <!-- Hamburger -->
+                        <!-- Mobile menu button -->
                         <div class="-me-2 flex items-center sm:hidden">
                             <button
-                                @click="
-                                    showingNavigationDropdown =
-                                        !showingNavigationDropdown
-                                "
+                                @click="showingNavigationDropdown = !showingNavigationDropdown"
                                 class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none"
                             >
                                 <svg
@@ -106,8 +179,7 @@ const showingNavigationDropdown = ref(false);
                                     <path
                                         :class="{
                                             hidden: showingNavigationDropdown,
-                                            'inline-flex':
-                                                !showingNavigationDropdown,
+                                            'inline-flex': !showingNavigationDropdown,
                                         }"
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
@@ -117,8 +189,7 @@ const showingNavigationDropdown = ref(false);
                                     <path
                                         :class="{
                                             hidden: !showingNavigationDropdown,
-                                            'inline-flex':
-                                                showingNavigationDropdown,
+                                            'inline-flex': showingNavigationDropdown,
                                         }"
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
@@ -141,21 +212,19 @@ const showingNavigationDropdown = ref(false);
                 >
                     <div class="space-y-1 pb-3 pt-2">
                         <ResponsiveNavLink
-                            :href="route('dashboard')"
-                            :active="route().current('dashboard')"
+                            v-for="item in menuItems"
+                            :key="item.route"
+                            :href="route(item.route)"
+                            :active="item.current()"
                         >
-                            Dashboard
+                            {{ item.icon }} {{ item.name }}
                         </ResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->
-                    <div
-                        class="border-t border-gray-200 pb-1 pt-4"
-                    >
+                    <div class="border-t border-gray-200 pb-1 pt-4">
                         <div class="px-4">
-                            <div
-                                class="text-base font-medium text-gray-800"
-                            >
+                            <div class="text-base font-medium text-gray-800">
                                 {{ $page.props.auth.user.name }}
                             </div>
                             <div class="text-sm font-medium text-gray-500">
@@ -179,19 +248,21 @@ const showingNavigationDropdown = ref(false);
                 </div>
             </nav>
 
-            <!-- Page Heading -->
+            <!-- Page Header -->
             <header
-                class="bg-white shadow"
                 v-if="$slots.header"
+                class="border-b border-gray-200 bg-white shadow-sm"
             >
-                <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                <div class="mx-auto max-w-full px-4 py-6 sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>
             </header>
 
             <!-- Page Content -->
-            <main>
-                <slot />
+            <main class="flex-1 overflow-auto">
+                <div class="mx-auto max-w-full p-4 sm:p-6 lg:p-8">
+                    <slot />
+                </div>
             </main>
         </div>
     </div>

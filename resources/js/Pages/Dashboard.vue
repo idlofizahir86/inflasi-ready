@@ -6,6 +6,9 @@ import PriceTrendChart from '@/Components/PriceTrendChart.vue';
 import RegionalMapModal from '@/Components/RegionalMapModal.vue';
 import BlockchainVerificationModal from '@/Components/BlockchainVerificationModal.vue';
 import { Head } from '@inertiajs/vue3';
+import { useTranslation } from '@/composables/useTranslation';
+
+const { t } = useTranslation();
 
 const props = defineProps({
     all_regions: Array,
@@ -25,11 +28,10 @@ const changeRegion = (event) => {
 const showMapModal = ref(false);
 const showVerificationModal = ref(false);
 
-// FIX: Mengambil data langsung dari all_regions agar Modal tidak "Loading..."
 const regionsForModal = computed(() => {
     return (props.all_regions ?? []).map(r => ({
         ...r,
-        status: r.status || 'STABLE', // Fallback status
+        status: r.status || 'STABLE',
         color: r.color || 'bg-primary'
     }));
 });
@@ -52,16 +54,14 @@ const getDotClasses = (status) => {
     }
 };
 
-// Gunakan helper ini untuk memastikan kita mengolah angka
 const formatNumber = (value) => {
     if (!value) return 0;
-    // Hapus simbol % jika ada, lalu ubah ke Float
     const num = typeof value === 'string' ? parseFloat(value.replace('%', '')) : value;
     return isNaN(num) ? 0 : num;
 };
 
 const regionsPreview = computed(() => {
-    const regions = props.all_regions ?? []; // Proteksi jika null
+    const regions = props.all_regions ?? [];
     const criticalRegions = regions.filter(region => region.status === 'CRITICAL');
     return criticalRegions.slice(0, 5);
 });
@@ -70,24 +70,24 @@ const marketBaskets = computed(() => props.db_commodities);
 </script>
 
 <template>
-    <Head title="Nasional Overview - Inflasi-Ready" />
+    <Head :title="t('Nasional Overview')" />
 
     <StitchLayout>
         <section class="mb-12">
             <header class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
                 <div>
-                    <h2 class="text-3xl font-extrabold text-on-surface tracking-tight font-headline">Nasional Overview</h2>
-                    <p class="text-on-surface-variant font-body">Monitoring: <span class="text-primary font-bold">{{ props.stats.region_display }}</span></p>
+                    <h2 class="text-3xl font-extrabold text-on-surface tracking-tight font-headline">{{ t('Nasional Overview') }}</h2>
+                    <p class="text-on-surface-variant font-body">{{ t('Monitoring') }}: <span class="text-primary font-bold">{{ props.stats.region_display }}</span></p>
                 </div>
 
                 <div class="relative inline-block w-full md:w-64">
-                    <label class="text-[10px] font-bold uppercase tracking-widest text-primary mb-1 block ml-1">Wilayah Pantauan</label>
+                    <label class="text-[10px] font-bold uppercase tracking-widest text-primary mb-1 block ml-1">{{ t('Wilayah Pantauan') }}</label>
                     <select 
                         :value="props.selected_region_id"
                         @change="changeRegion"
                         class="w-full bg-surface-container-lowest border-none rounded-lg py-3 px-4 shadow-sm text-sm font-bold focus:ring-2 focus:ring-primary cursor-pointer"
                     >
-                        <option value="national">🇮🇩 Nasional (Seluruh Indonesia)</option>
+                        <option value="national">🇮🇩 {{ t('Nasional (Seluruh Indonesia)') }}</option>
                         <option v-for="reg in props.all_regions" :key="reg.id" :value="reg.id">
                             {{ reg.name }}
                         </option>
@@ -99,7 +99,7 @@ const marketBaskets = computed(() => props.db_commodities);
                 <div class="relative overflow-hidden bg-white/60 backdrop-blur-xl border border-white/40 p-8 rounded-2xl shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] group transition-all hover:-translate-y-1">
                     <div class="absolute -right-4 -top-4 w-24 h-24 bg-primary/10 rounded-full blur-2xl group-hover:bg-primary/20 transition-colors"></div>
                     
-                    <p class="text-on-surface-variant/80 text-xs font-bold uppercase tracking-widest mb-2">Inflation Rate</p>
+                    <p class="text-on-surface-variant/80 text-xs font-bold uppercase tracking-widest mb-2">{{ t('Inflation Rate') }}</p>
                     <div class="flex items-baseline gap-2">
                         <h3 class="text-5xl font-black text-primary font-headline tracking-tighter">{{ props.stats.inflation }}%</h3>
                         <span :class="['flex items-center text-sm font-bold', formatNumber(props.stats.inflation_trend) > 0 ? 'text-error' : 'text-primary']">
@@ -111,7 +111,7 @@ const marketBaskets = computed(() => props.db_commodities);
 
                 <div class="relative p-[1px] rounded-2xl bg-gradient-to-br from-error/20 via-transparent to-transparent shadow-sm group hover:from-error/40 transition-all">
                     <div class="bg-surface-container-lowest p-8 rounded-[15px] h-full">
-                        <p class="text-on-surface-variant text-xs font-bold uppercase tracking-widest mb-1">Top Rising</p>
+                        <p class="text-on-surface-variant text-xs font-bold uppercase tracking-widest mb-1">{{ t('Top Rising') }}</p>
                         <h4 class="text-on-surface font-bold text-lg mb-3">{{ props.stats.top_name }}</h4>
                         <div class="flex items-center justify-between">
                             <h3 class="text-2xl font-black text-on-surface font-headline">Rp {{ Number(formatNumber(props.stats.top_price)).toLocaleString('id-ID') }}</h3>
@@ -128,7 +128,7 @@ const marketBaskets = computed(() => props.db_commodities);
                         <circle cx="100" cy="100" r="50" fill="white" />
                     </svg>
 
-                    <p class="text-white/70 text-xs font-bold uppercase tracking-widest mb-2">AI Accuracy</p>
+                    <p class="text-white/70 text-xs font-bold uppercase tracking-widest mb-2">{{ t('AI Accuracy') }}</p>
                     <h3 class="text-5xl font-black text-white font-headline tracking-tighter relative z-10">{{ props.stats.accuracy_score || '99.4' }}%</h3>
                 </div>
             </div>
@@ -141,8 +141,8 @@ const marketBaskets = computed(() => props.db_commodities);
 
             <section class="lg:col-span-2 bg-surface-container-low rounded-lg p-8 overflow-hidden relative group">
                 <div class="relative z-10">
-                    <h3 class="text-xl font-bold font-headline text-on-surface mb-2">Region Hotspots</h3>
-                    <p class="text-sm text-on-surface-variant mb-6">Wilayah dengan fluktuasi harga tertinggi</p>
+                    <h3 class="text-xl font-bold font-headline text-on-surface mb-2">{{ t('Region Hotspots') }}</h3>
+                    <p class="text-sm text-on-surface-variant mb-6">{{ t('Wilayah dengan fluktuasi harga tertinggi') }}</p>
 
                     <div class="space-y-4">
                         <div v-for="region in regionsPreview" :key="region.id" 
@@ -160,12 +160,12 @@ const marketBaskets = computed(() => props.db_commodities);
 
                         <div v-if="regionsPreview.length === 0" class="py-8 text-center bg-surface-container-lowest rounded-lg border border-dashed border-slate-300">
                             <span class="material-symbols-outlined text-primary/40 text-4xl mb-2">check_circle</span>
-                            <p class="text-xs text-on-surface-variant font-medium">Semua wilayah saat ini terpantau STABLE</p>
+                            <p class="text-xs text-on-surface-variant font-medium">{{ t('Semua wilayah saat ini terpantau STABLE') }}</p>
                         </div>
                     </div>
 
                     <button @click="showMapModal = true" class="mt-8 w-full py-4 bg-white text-primary text-[10px] font-bold uppercase tracking-widest border border-primary/20 rounded-xl hover:bg-primary hover:text-white hover:shadow-lg hover:shadow-primary/20 transition-all duration-300">
-                        Explore All 38 Provinces
+                        {{ t('Explore All 38 Provinces') }}
                     </button>
                 </div>
 
@@ -177,9 +177,9 @@ const marketBaskets = computed(() => props.db_commodities);
 
         <section class="space-y-6">
             <div class="flex items-center justify-between">
-                <h3 class="text-xl font-bold font-headline text-on-surface">Market Basket Monitor</h3>
+                <h3 class="text-xl font-bold font-headline text-on-surface">{{ t('Market Basket Monitor') }}</h3>
                 <Link href="/reports" class="text-sm font-bold text-primary flex items-center gap-1 hover:underline">
-                    FULL REPORT <span class="material-symbols-outlined text-sm">analytics</span>
+                    {{ t('FULL REPORT') }} <span class="material-symbols-outlined text-sm">analytics</span>
                 </Link>
             </div>
             

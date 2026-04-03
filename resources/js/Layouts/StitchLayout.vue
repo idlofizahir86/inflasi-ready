@@ -2,7 +2,11 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import CommoditySearchResults from '@/Components/CommoditySearchResults.vue';
+import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
+import { useTranslation } from '@/composables/useTranslation';
+import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 
+const { t } = useTranslation();
 const page = usePage();
 const searchQuery = ref('');
 const showSearchResults = ref(false);
@@ -16,17 +20,17 @@ const topNavLinks = computed(() => {
     // Jika di halaman API Settings, tampilkan menu developer
     if (currentRoute.startsWith('api-settings')) {
         return [
-            { name: 'API Keys', route: 'api-settings', active: currentRoute === 'api-settings' },
-            { name: 'Documentation', route: '#', active: false },
-            { name: 'Usage Log', route: '#', active: false },
+            { name: t('API Keys'), route: 'api-settings', active: currentRoute === 'api-settings' },
+            { name: t('Documentation'), route: '#', active: false },
+            { name: t('Usage Log'), route: '#', active: false },
         ];
     }
 
     // Default: Tampilkan menu utama (Dashboard/Data Center/Simulation)
     return [
-        { name: 'Overview', route: 'dashboard', active: currentRoute === 'dashboard' },
-        { name: 'Regional', route: 'datacenter', active: currentRoute === 'datacenter' },
-        { name: 'Analytics', route: 'simulation', active: currentRoute === 'simulation' },
+        { name: t('Overview'), route: 'dashboard', active: currentRoute === 'dashboard' },
+        { name: t('Regional'), route: 'datacenter', active: currentRoute === 'datacenter' },
+        { name: t('Analytics'), route: 'simulation', active: currentRoute === 'simulation' },
     ];
 });
 
@@ -86,15 +90,13 @@ const handleSearch = () => {
         <aside class="h-screen w-64 fixed left-0 top-0 border-r-0 bg-slate-50 flex flex-col py-6 z-50">
             <div class="px-6 mb-10">
                 <div class="flex items-center gap-2 mb-1">
-                    <span class="material-symbols-outlined text-primary text-2xl" style="font-variation-settings: 'FILL' 1;">
-                        agriculture
-                    </span>
-                    <h1 class="text-xl font-bold tracking-tight text-primary font-headline">
-                        Inflasi-Ready
+                    <ApplicationLogo class="h-8 w-8 fill-current text-emerald-800" />
+                    <h1 class="text-xl tracking-tight text-primary font-headline">
+                        <span class="font-black">ARTHA</span><span class="font-light">DATA</span>
                     </h1>
                 </div>
                 <p class="text-xs font-medium uppercase tracking-widest text-primary/60">
-                    Ketahanan Pangan
+                    {{ t('app_slogan') }}
                 </p>
             </div>
 
@@ -103,28 +105,35 @@ const handleSearch = () => {
                     :class="[route().current('dashboard') ? 'text-emerald-900 font-semibold border-r-4 border-emerald-800 bg-emerald-50/50' : 'text-slate-500 hover:text-emerald-800 hover:bg-emerald-50']"
                     class="flex items-center gap-3 px-4 py-3 transition-all duration-200 active:scale-95">
                     <span class="material-symbols-outlined" :style="route().current('dashboard') ? 'font-variation-settings: \'FILL\' 1;' : ''">dashboard</span>
-                    <span class="font-headline font-medium text-sm tracking-tight">Dashboard</span>
+                    <span class="font-headline font-medium text-sm tracking-tight">{{ t('Dashboard') }}</span>
                 </Link>
 
                 <Link :href="route('datacenter')" 
                     :class="[route().current('datacenter') ? 'text-emerald-900 font-semibold border-r-4 border-emerald-800 bg-emerald-50/50' : 'text-slate-500 hover:text-emerald-800 hover:bg-emerald-50']"
                     class="flex items-center gap-3 px-4 py-3 transition-all duration-200 active:scale-95">
                     <span class="material-symbols-outlined" :style="route().current('datacenter') ? 'font-variation-settings: \'FILL\' 1;' : ''">database</span>
-                    <span class="font-headline font-medium text-sm tracking-tight">Data Center</span>
+                    <span class="font-headline font-medium text-sm tracking-tight">{{ t('Data Center') }}</span>
                 </Link>
 
                 <Link :href="route('simulation')" 
                     :class="[route().current('simulation') ? 'text-emerald-900 font-semibold border-r-4 border-emerald-800 bg-emerald-50/50' : 'text-slate-500 hover:text-emerald-800 hover:bg-emerald-50']"
                     class="flex items-center gap-3 px-4 py-3 transition-all duration-200 active:scale-95">
                     <span class="material-symbols-outlined" :style="route().current('simulation') ? 'font-variation-settings: \'FILL\' 1;' : ''">analytics</span>
-                    <span class="font-headline font-medium text-sm tracking-tight">Simulation</span>
+                    <span class="font-headline font-medium text-sm tracking-tight">{{ t('Simulation') }}</span>
+                </Link>
+
+                <Link :href="route('supplier.index')" 
+                    :class="[(route().current('supplier.index') || route().current('supplier.list') || route().current('simulation.suppliers')) ? 'text-emerald-900 font-semibold border-r-4 border-emerald-800 bg-emerald-50/50' : 'text-slate-500 hover:text-emerald-800 hover:bg-emerald-50']"
+                    class="flex items-center gap-3 px-4 py-3 transition-all duration-200 active:scale-95">
+                    <span class="material-symbols-outlined" :style="(route().current('supplier.index') || route().current('supplier.list') || route().current('simulation.suppliers')) ? 'font-variation-settings: \'FILL\' 1;' : ''">local_shipping</span>
+                    <span class="font-headline font-medium text-sm tracking-tight">{{ t('Supplier') }}</span>
                 </Link>
 
                 <Link :href="route('api-settings')" 
                     :class="[route().current('api-settings') ? 'text-emerald-900 font-semibold border-r-4 border-emerald-800 bg-emerald-50/50' : 'text-slate-500 hover:text-emerald-800 hover:bg-emerald-50']"
                     class="flex items-center gap-3 px-4 py-3 transition-all duration-200 active:scale-95">
                     <span class="material-symbols-outlined" :style="route().current('api-settings') ? 'font-variation-settings: \'FILL\' 1;' : ''">code</span>
-                    <span class="font-headline font-medium text-sm tracking-tight">API Settings</span>
+                    <span class="font-headline font-medium text-sm tracking-tight">{{ t('API Settings') }}</span>
                 </Link>
 
                 <div class="h-px bg-slate-200 my-2"></div>
@@ -133,26 +142,26 @@ const handleSearch = () => {
                     :class="[route().current('profile.edit') ? 'text-emerald-900 font-semibold border-r-4 border-emerald-800 bg-emerald-50/50' : 'text-slate-500 hover:text-emerald-800 hover:bg-emerald-50']"
                     class="flex items-center gap-3 px-4 py-3 transition-all duration-200 active:scale-95">
                     <span class="material-symbols-outlined" :style="route().current('profile.edit') ? 'font-variation-settings: \'FILL\' 1;' : ''">person</span>
-                    <span class="font-headline font-medium text-sm tracking-tight">Profile</span>
+                    <span class="font-headline font-medium text-sm tracking-tight">{{ t('Profile') }}</span>
                 </Link>
             </nav>
 
             <div class="mt-auto px-4 space-y-1">
                 <div class="px-4 py-3 mb-4 rounded-lg bg-emerald-900 text-white text-[10px] font-bold text-center tracking-widest uppercase flex items-center justify-center gap-2">
                     <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
-                    Blockchain Verified
+                    {{ t('Blockchain Verified') }}
                 </div>
                 
                 <Link :href="route('support')" 
                     target="_blank" 
                     class="flex items-center gap-3 px-4 py-2 text-slate-500 hover:text-emerald-800 transition-colors">
                     <span class="material-symbols-outlined">help</span>
-                    <span class="font-headline font-medium text-sm tracking-tight">Support</span>
+                    <span class="font-headline font-medium text-sm tracking-tight">{{ t('Support') }}</span>
                 </Link>
                 
                 <Link :href="route('logout')" method="post" as="button" class="w-full flex items-center gap-3 px-4 py-2 text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition-colors">
                     <span class="material-symbols-outlined">logout</span>
-                    <span class="font-headline font-medium text-sm tracking-tight">Logout</span>
+                    <span class="font-headline font-medium text-sm tracking-tight">{{ t('Logout') }}</span>
                 </Link>
             </div>
         </aside>
@@ -184,7 +193,7 @@ const handleSearch = () => {
                         @keyup.enter="handleSearch"
                         @keydown.esc="showSuggestions = false"
                         class="pl-10 pr-4 py-2 bg-slate-100 border-2 border-transparent rounded-full text-sm focus:border-emerald-500 focus:ring-0 focus:outline-none w-full transition-all" 
-                        :placeholder="route().current('api-settings') ? 'Search API docs...' : 'Search commodity, price, trend...'" 
+                        :placeholder="route().current('api-settings') ? t('Search API docs...') : t('Search commodity, price, trend...')" 
                         type="text"
                         autocomplete="off"/>
                     
@@ -203,13 +212,14 @@ const handleSearch = () => {
                                 </div>
                             </div>
                             <div class="bg-slate-50 px-4 py-2 text-xs text-slate-500 font-bold border-t border-slate-200">
-                                PRESS ENTER TO SEARCH
+                                {{ t('PRESS ENTER TO SEARCH') }}
                             </div>
                         </div>
                     </transition>
                 </div>
                 
                 <div class="flex items-center gap-4">
+                    <LanguageSwitcher />
                     <button class="material-symbols-outlined text-slate-500 hover:text-emerald-600">notifications</button>
                     
                     <div class="group relative">

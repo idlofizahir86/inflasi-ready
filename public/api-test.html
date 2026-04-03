@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .section { background: white; padding: 20px; margin: 10px 0; border-radius: 5px; }
+        h2 { color: #333; }
+        .response { background: #f9f9f9; padding: 15px; border-left: 4px solid #007bff; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word; }
+        .error { border-left-color: #dc3545; background: #fff5f5; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 3px; }
+        button:hover { background: #0056b3; }
+        .status { padding: 5px 10px; border-radius: 3px; margin: 5px 0; }
+        .status.ok { background: #d4edda; color: #155724; }
+        .status.error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 API Debug Tool</h1>
+        
+        <div class="section">
+            <h2>Test 1: Health Check</h2>
+            <button onclick="testHealthCheck()">Check Server</button>
+            <div id="healthResponse" class="response" style="display:none;"></div>
+        </div>
+
+        <div class="section">
+            <h2>Test 2: GET Request (Simulation Page)</h2>
+            <button onclick="testGetSimulation()">Load Simulation Page</button>
+            <div id="getResponse" class="response" style="display:none;"></div>
+        </div>
+
+        <div class="section">
+            <h2>Test 3: POST to Chat (Minimal)</h2>
+            <button onclick="testChatMinimal()">Test Chat API</button>
+            <div id="chatResponse" class="response" style="display:none;"></div>
+        </div>
+
+        <div class="section">
+            <h2>Test 4: POST to Extract Story (Minimal)</h2>
+            <button onclick="testExtractMinimal()">Test Extract API</button>
+            <div id="storyResponse" class="response" style="display:none;"></div>
+        </div>
+
+        <div class="section">
+            <h2>Test 5: Check CSRF Token</h2>
+            <button onclick="testCSRFToken()">Check CSRF</button>
+            <div id="csrfResponse" class="response" style="display:none;"></div>
+        </div>
+    </div>
+
+    <script>
+        function getCsrfToken() {
+            const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+            return token || 'NO_TOKEN_FOUND';
+        }
+
+        function showResponse(elementId, status, data, isError = false) {
+            const el = document.getElementById(elementId);
+            el.className = 'response' + (isError ? ' error' : '');
+            
+            const statusText = `[${status}] ${isError ? '❌ ERROR' : '✅ SUCCESS'}`;
+            el.textContent = statusText + '\n\n' + JSON.stringify(data, null, 2);
+            el.style.display = 'block';
+        }
+
+        async function testHealthCheck() {
+            try {
+                const response = await fetch('/');
+                const text = await response.text();
+                showResponse('healthResponse', response.status, {
+                    status: response.status,
+                    contentType: response.headers.get('content-type'),
+                    preview: text.substring(0, 200)
+                }, !response.ok);
+            } catch (e) {
+                showResponse('healthResponse', 'ERROR', {
+                    error: e.message
+                }, true);
+            }
+        }
+
+        async function testGetSimulation() {
+            try {
+                const response = await fetch('/simulation');
+                const text = await response.text();
+                showResponse('getResponse', response.status, {
+                    status: response.status,
+                    contentType: response.headers.get('content-type'),
+                    preview: text.substring(0, 300)
+                }, !response.ok);
+            } catch (e) {
+                showResponse('getResponse', 'ERROR', {
+                    error: e.message
+                }, true);
+            }
+        }
+
+        async function testChatMinimal() {
+            try {
+                const csrfToken = getCsrfToken();
+                console.log('CSRF Token:', csrfToken);
+                
+                const response = await fetch('/simulation/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: 'Test message'
+                    })
+                });
+
+                let data;
+                const contentType = response.headers.get('content-type');
+                
+                if (contentType && contentType.includes('application/json')) {
+                    data = await response.json();
+                } else {
+                    const text = await response.text();
+                    data = {
+                        error: 'Response is not JSON',
+                        contentType: contentType,
+                        preview: text.substring(0, 500)
+                    };
+                }
+
+                showResponse('chatResponse', response.status, {
+                    status: response.status,
+                    contentType: response.headers.get('content-type'),
+                    data: data
+                }, !response.ok);
+            } catch (e) {
+                showResponse('chatResponse', 'ERROR', {
+                    error: e.message,
+                    stack: e.stack
+                }, true);
+            }
+        }
+
+        async function testExtractMinimal() {
+            try {
+                const csrfToken = getCsrfToken();
+                
+                const response = await fetch('/simulation/extract-story', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        story: 'I am a trader and prices are changing.'
+                    })
+                });
+
+                let data;
+                const contentType = response.headers.get('content-type');
+                
+                if (contentType && contentType.includes('application/json')) {
+                    data = await response.json();
+                } else {
+                    const text = await response.text();
+                    data = {
+                        error: 'Response is not JSON',
+                        contentType: contentType,
+                        preview: text.substring(0, 500)
+                    };
+                }
+
+                showResponse('storyResponse', response.status, {
+                    status: response.status,
+                    contentType: response.headers.get('content-type'),
+                    data: data
+                }, !response.ok);
+            } catch (e) {
+                showResponse('storyResponse', 'ERROR', {
+                    error: e.message,
+                    stack: e.stack
+                }, true);
+            }
+        }
+
+        async function testCSRFToken() {
+            try {
+                const token = getCsrfToken();
+                const response = await fetch('/');
+                
+                showResponse('csrfResponse', 'N/A', {
+                    csrfToken: token,
+                    tokenExists: !!token,
+                    tokenLength: token.length,
+                    pageLoaded: response.ok
+                });
+            } catch (e) {
+                showResponse('csrfResponse', 'ERROR', {
+                    error: e.message
+                }, true);
+            }
+        }
+
+        // Run health check on page load
+        window.addEventListener('load', () => {
+            console.log('Debug tool loaded. Click buttons to test APIs.');
+            testHealthCheck();
+        });
+    </script>
+</body>
+</html>

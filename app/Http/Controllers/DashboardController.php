@@ -53,8 +53,8 @@ class DashboardController extends Controller
                 'region_display' => $selectedRegionId && $selectedRegionId !== 'national' 
                                 ? ($allRegions->find($selectedRegionId)->name ?? 'Nasional') 
                                 : 'Indonesia (Nasional)',
-                'top_name' => $topItem->name ?? 'Tidak Ada Data',
-                'top_price' => $topItem->price ?? 0, // Kirim angka mentah saja
+                'top_name' => $topItem->name ?? __('Tidak Ada Data'),
+                'top_price' => $topItem->price ?? 0,
                 'top_trend' => $topItem->trend ?? '0%',
             ],
             'db_commodities' => $displayItems->values()->map(fn($item) => $this->formatItem($item)),
@@ -70,7 +70,7 @@ class DashboardController extends Controller
             'price' => number_format($item->price, 0, ',', '.'),
             'trend' => $item->trend,
             'status' => $item->status,
-            'region' => $item->region->name ?? 'Nasional'
+            'region' => $item->region->name ?? __('Nasional')
         ];
     }
 
@@ -119,7 +119,7 @@ class DashboardController extends Controller
             'inflation' => $avgInflation . '%',
             'volatility' => $priceVariance . '%',
             'markets_count' => $allMarkets->count(),
-            'top_commodity' => $topCommodity->name ?? 'Tidak Ada Data',
+            'top_commodity' => $topCommodity->name ?? __('Tidak Ada Data'),
             'top_price' => $topCommodity ? 'Rp ' . number_format($topCommodity->price, 0, ',', '.') : 'Rp 0',
             'marketList' => $markets,
         ];

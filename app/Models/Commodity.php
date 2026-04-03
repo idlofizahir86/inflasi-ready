@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Commodity extends Model
 {
@@ -14,5 +15,11 @@ class Commodity extends Model
     public function region(): BelongsTo
     {
         return $this->belongsTo(Region::class);
+    }
+
+    // Relasi ke Supplier Prices
+    public function supplierPrices(): HasMany
+    {
+        return $this->hasMany(SupplierPrice::class);
     }
 }

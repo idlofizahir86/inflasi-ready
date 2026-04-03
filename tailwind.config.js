@@ -14,12 +14,17 @@ export default {
         extend: {
             colors: {
                 "primary": "#004532",
+                "primary": "#004532",
                 "surface": "#f7f9fb",
                 "on-surface": "#191c1e",
                 "on-surface-variant": "#3f4944",
                 "primary-container": "#065f46",
                 "on-primary-container": "#8bd6b7",
                 "error": "#ba1a1a",
+                secondary: {
+                    DEFAULT: '#e9d736ff', // Ganti dengan kode hex warna secondary ARTHADATA Anda
+                    dark: '#475569',    // Warna untuk hover:bg-secondary-dark
+                },
             },
             fontFamily: {
                 headline: ['Lexend', ...defaultTheme.fontFamily.sans],

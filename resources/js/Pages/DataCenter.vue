@@ -8,6 +8,9 @@ import FilterStreamModal from '@/Components/FilterStreamModal.vue';
 import BatchCleanModal from '@/Components/BatchCleanModal.vue';
 import AuditLogModal from '@/Components/AuditLogModal.vue';
 import { Head } from '@inertiajs/vue3';
+import { useTranslation } from '@/composables/useTranslation';
+
+const { t } = useTranslation();
 
 const props = defineProps({
     commodities: Array
@@ -27,10 +30,10 @@ const totalPages = computed(() => Math.ceil(filteredCommodities.value.length / i
 
 // Stats
 const stats = ref([
-    { label: 'Total Records', value: '142,809', trend: '+12%', color: 'text-emerald-900' },
-    { label: 'Outliers Flagged', value: '1,402', trend: 'Auto-Corrected', color: 'text-rose-600', border: 'border-l-4 border-rose-200' },
-    { label: 'Data Integrity', value: '99.8%', icon: 'verified', color: 'text-emerald-700' },
-    { label: 'Latency', value: '24ms', trend: 'Real-time', color: 'text-blue-600' },
+    { label: t('Total Records'), value: '142,809', trend: '+12%', color: 'text-emerald-900' },
+    { label: t('Outliers Flagged'), value: '1,402', trend: t('Auto-Corrected'), color: 'text-rose-600', border: 'border-l-4 border-rose-200' },
+    { label: t('Data Integrity'), value: '99.8%', icon: 'verified', color: 'text-emerald-700' },
+    { label: t('Latency'), value: '24ms', trend: t('Real-time'), color: 'text-blue-600' },
 ]);
 
 const displayedCommodities = computed(() => {
@@ -55,32 +58,32 @@ const handleBatchCleanComplete = (result) => {
 </script>
 
 <template>
-    <Head title="Data Center - Washing & Normalization" />
+    <Head :title="t('Data Center')" />
     <StitchLayout>
         <header class="mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
             <div>
                 <div class="flex items-center gap-3 mb-2">
-                    <span class="px-2 py-1 bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase rounded tracking-widest border border-emerald-200">Data Cleaning Pipe</span>
+                    <span class="px-2 py-1 bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase rounded tracking-widest border border-emerald-200">{{ t('Data Cleaning Pipe') }}</span>
                     <span class="flex items-center gap-1 text-[10px] font-bold text-emerald-600 uppercase">
                         <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">shield</span>
-                        Blockchain Verified
+                        {{ t('Blockchain Verified') }}
                     </span>
                 </div>
                 <h2 class="text-4xl font-headline font-extrabold text-slate-900 tracking-tight">
-                    Data Washing <span class="text-emerald-500/40">&</span> Normalization
+                    {{ t('Data Washing & Normalization') }}
                 </h2>
                 <p class="text-slate-500 mt-2 max-w-2xl font-body leading-relaxed">
-                    Refining raw agricultural data streams into high-fidelity inflation indices using automated outlier detection and temporal smoothing.
+                    {{ t('Refining raw agricultural data streams') }}
                 </p>
             </div>
             <div class="flex gap-3">
                 <button @click="showFilterModal = true" class="px-5 py-2.5 bg-white text-slate-700 font-headline text-sm font-bold rounded-xl hover:bg-slate-50 transition-all flex items-center gap-2 border border-slate-200 shadow-sm active:scale-95">
                     <span class="material-symbols-outlined text-sm">filter_list</span>
-                    Filter Stream
+                    {{ t('Filter Stream') }}
                 </button>
                 <button @click="showCleanModal = true" class="px-5 py-2.5 bg-emerald-800 text-white font-headline text-sm font-bold rounded-xl shadow-lg shadow-emerald-900/20 hover:bg-emerald-900 transition-all flex items-center gap-2 active:scale-95">
                     <span class="material-symbols-outlined text-sm">cleaning_services</span>
-                    Run Batch Clean
+                    {{ t('Run Batch Clean') }}
                 </button>
             </div>
         </header>
@@ -101,20 +104,20 @@ const handleBatchCleanComplete = (result) => {
         <section class="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100">
             <div class="px-8 py-6 flex items-center justify-between bg-slate-50/50 border-b border-slate-100">
                 <div class="flex items-center gap-4">
-                    <span class="text-xs font-bold text-slate-500 uppercase">Data Records</span>
-                    <span class="px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full">{{ filteredCommodities.length }} Items</span>
+                    <span class="text-xs font-bold text-slate-500 uppercase">{{ t('Data Records') }}</span>
+                    <span class="px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-full">{{ filteredCommodities.length }} {{ t('Items') }}</span>
                 </div>
-                <span class="text-xs text-slate-400">Last updated: 5 mins ago</span>
+                <span class="text-xs text-slate-400">{{ t('Last updated') }}: 5 {{ t('mins ago') }}</span>
             </div>
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left text-on-surface-variant">
                     <thead class="text-xs font-bold uppercase border-b border-slate-100 bg-slate-50/50">
                         <tr>
-                            <th class="px-8 py-4">Commodity</th>
-                            <th class="px-4 py-4">Category</th>
-                            <th class="px-4 py-4">Price (Rp)</th>
-                            <th class="px-4 py-4">Region</th>
-                            <th class="px-4 py-4">Status</th>
+                            <th class="px-8 py-4">{{ t('Commodity') }}</th>
+                            <th class="px-4 py-4">{{ t('Category') }}</th>
+                            <th class="px-4 py-4">{{ t('Price (Rp)') }}</th>
+                            <th class="px-4 py-4">{{ t('Region') }}</th>
+                            <th class="px-4 py-4">{{ t('Status') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -133,7 +136,7 @@ const handleBatchCleanComplete = (result) => {
                             <td class="px-4 py-4">
                                 <span class="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-800 text-xs font-bold rounded-full">
                                     <span class="material-symbols-outlined text-[10px]" style="font-variation-settings: 'FILL' 1;">verified</span>
-                                    Verified
+                                    {{ t('Verified') }}
                                 </span>
                             </td>
                         </tr>
@@ -148,7 +151,7 @@ const handleBatchCleanComplete = (result) => {
                     <div class="h-4 w-[1px] bg-slate-200"></div>
                     <button @click="showLogsModal = true" class="text-[10px] font-bold text-slate-400 hover:text-slate-600 transition-colors uppercase tracking-widest flex items-center gap-1">
                         <span class="material-symbols-outlined text-sm">history</span>
-                        Logs
+                        {{ t('Logs') }}
                     </button>
                 </div>
             </div>
@@ -159,22 +162,22 @@ const handleBatchCleanComplete = (result) => {
                 <div class="relative z-10">
                     <h4 class="font-headline font-bold text-xl mb-6 flex items-center gap-3 text-white">
                         <span class="material-symbols-outlined text-emerald-400">token</span>
-                        Z-Score Washing Pipeline
+                        {{ t('Z-Score Washing Pipeline') }}
                     </h4>
                     <div class="space-y-4 font-body text-sm text-slate-300 leading-relaxed">
                         <p>Mengidentifikasi dan memperbaiki anomali harga dengan algoritma Z-Score otomatis. Setiap data point dianalisis terhadap moving average dengan threshold σ &gt; 3.0.</p>
                         <div class="grid grid-cols-3 gap-4">
                             <div class="bg-white/5 border border-slate-700 p-4 rounded-lg">
                                 <span class="text-emerald-400 font-bold text-lg block">142,809</span>
-                                <span class="text-xs text-slate-400">Total Records</span>
+                                <span class="text-xs text-slate-400">{{ t('Total Records') }}</span>
                             </div>
                             <div class="bg-white/5 border border-slate-700 p-4 rounded-lg">
                                 <span class="text-rose-400 font-bold text-lg block">1,402</span>
-                                <span class="text-xs text-slate-400">Outliers Detected</span>
+                                <span class="text-xs text-slate-400">{{ t('Outliers Detected') }}</span>
                             </div>
                             <div class="bg-white/5 border border-slate-700 p-4 rounded-lg">
                                 <span class="text-blue-400 font-bold text-lg block">99.8%</span>
-                                <span class="text-xs text-slate-400">Data Integrity</span>
+                                <span class="text-xs text-slate-400">{{ t('Data Integrity') }}</span>
                             </div>
                         </div>
                     </div>
@@ -187,7 +190,7 @@ const handleBatchCleanComplete = (result) => {
             <div class="md:col-span-4 bg-white rounded-3xl p-8 border border-slate-100 shadow-sm space-y-6">
                 <div>
                     <span class="material-symbols-outlined text-emerald-600 mb-6 text-4xl shadow-sm">auto_awesome</span>
-                    <h4 class="font-headline font-bold text-xl mb-4">Cleaning Logic</h4>
+                    <h4 class="font-headline font-bold text-xl mb-4">{{ t('Cleaning Logic') }}</h4>
                     <ul class="space-y-4">
                         <li v-for="rule in ['Z-Score Analysis (σ > 3.0)', 'Market Correlation Check', 'Source Reputation Weighting']" :key="rule" class="flex items-center gap-3 text-sm font-medium text-emerald-900">
                             <span class="material-symbols-outlined text-emerald-600 text-lg" style="font-variation-settings: 'FILL' 1;">check_circle</span>
@@ -196,7 +199,7 @@ const handleBatchCleanComplete = (result) => {
                     </ul>
                 </div>
                 <button class="mt-10 w-full py-3 bg-emerald-900 text-white font-headline font-bold rounded-xl text-sm hover:bg-emerald-950 transition-all active:scale-95 shadow-lg shadow-black/5">
-                    Edit Global Rules
+                    {{ t('Edit Global Rules') }}
                 </button>
             </div>
         </div>

@@ -7,6 +7,9 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { onMounted } from 'vue';
+import { useTranslation } from '@/composables/useTranslation';
+
+const { t } = useTranslation();
 
 defineProps({
     canResetPassword: {
@@ -36,7 +39,6 @@ const form = useForm({
 });
 
 onMounted(() => {
-    // Check if demo credentials are provided (after logout)
     const urlParams = new URLSearchParams(window.location.search);
     const demoEmail = urlParams.get('demo_email');
     const demoPassword = urlParams.get('demo_password');
@@ -57,7 +59,7 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Log in" />
+        <Head :title="t('Log in')" />
 
         <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
             {{ status }}
@@ -65,18 +67,18 @@ const submit = () => {
 
         <!-- Demo Account Hint -->
         <div class="mb-6 p-4 rounded-lg bg-emerald-50 border border-emerald-200">
-            <p class="text-xs font-semibold text-emerald-900 uppercase tracking-widest mb-2">Demo Account</p>
+            <p class="text-xs font-semibold text-emerald-900 uppercase tracking-widest mb-2">{{ t('Demo Account') }}</p>
             <p class="text-sm text-emerald-800 font-medium">
-                Email: <code class="bg-white px-2 py-1 rounded text-emerald-700 font-mono">akun-demo@pidi.id</code>
+                {{ t('Email') }}: <code class="bg-white px-2 py-1 rounded text-emerald-700 font-mono">akun-demo@pidi.id</code>
             </p>
             <p class="text-sm text-emerald-800 font-medium">
-                Password: <code class="bg-white px-2 py-1 rounded text-emerald-700 font-mono">123456</code>
+                {{ t('Password') }}: <code class="bg-white px-2 py-1 rounded text-emerald-700 font-mono">123456</code>
             </p>
         </div>
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="email" value="Email" />
+                <InputLabel for="email" :value="t('Email')" />
 
                 <TextInput
                     id="email"
@@ -92,7 +94,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password" value="Password" />
+                <InputLabel for="password" :value="t('Password')" />
 
                 <TextInput
                     id="password"
@@ -110,7 +112,7 @@ const submit = () => {
                 <label class="flex items-center">
                     <Checkbox name="remember" v-model:checked="form.remember" />
                     <span class="ms-2 text-sm text-gray-600"
-                        >Remember me</span
+                        >{{ t('Remember me') }}</span
                     >
                 </label>
             </div>
@@ -121,7 +123,7 @@ const submit = () => {
                     :href="route('password.request')"
                     class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
-                    Forgot your password?
+                    {{ t('Forgot your password?') }}
                 </Link>
 
                 <PrimaryButton
@@ -129,7 +131,7 @@ const submit = () => {
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Log in
+                    {{ t('Log in') }}
                 </PrimaryButton>
             </div>
         </form>
