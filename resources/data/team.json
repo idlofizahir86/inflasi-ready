@@ -1,0 +1,41 @@
+[
+    {
+        "name": "Fahmi Agung Maulana",
+        "role": "AI Engineer",
+        "photo": "https://media.licdn.com/dms/image/v2/D5603AQGOQI6iO8U1eg/profile-displayphoto-scale_400_400/B56Z0KNGANH8Ag-/0/1773992700737?e=1776902400&v=beta&t=GeQqnwU2L9TAddF8Jxy1bgu3dhpnlLefEneaF1k5JqE",
+        "linkedin": "https://linkedin.com/in/fahmiagungmaulana/",
+        "portfolios": [
+            {"title": "Kaggle", "type": "url", "link": "https://www.kaggle.com/fahmiagungmaulana"},
+            {"title": "Github", "type": "url", "link": "https://github.com/fahmiagungmaulana"}
+        ]
+    },
+    {   
+        "name": "Grace Ribka Ulina Sidebang",
+        "role": "Economic Analyst",
+        "photo": "grace.png",
+        "linkedin": "https://www.linkedin.com/in/graceribka/",
+        "portfolios": [
+            {"title": "Portfolio", "type": "pdf", "link": "portfolio-grace.pdf"}
+        ]
+    },
+    {
+        "name": "Idlofi Zahir Rajaba",
+        "role": "Software Engineer",
+        "photo": "https://media.licdn.com/dms/image/v2/D5603AQG86zFukr054Q/profile-displayphoto-shrink_400_400/B56ZVOaGyiGoAg-/0/1740777221742?e=1776902400&v=beta&t=Mdev_FePMCNn0-S_EeQDR3o9gKl5lVLpI8cPAmQ-sMg",
+        "linkedin": "https://www.linkedin.com/in/idlofi-zahir-rajaba/",
+        "portfolios": [
+            {"title": "Personal Website", "type": "url", "link": "https://idlofizahir.my.id/"},
+            {"title": "Github", "type": "url", "link": "https://github.com/idlofizahir86"}
+        ]
+    },
+    {
+        "name": "Rofi'ah Budi Nadia",
+        "role": "Business Analyst",
+        "photo": "https://media.licdn.com/dms/image/v2/D5603AQHDRuuwj1Po3g/profile-displayphoto-scale_400_400/B56ZwDiri1JwAg-/0/1769585951858?e=1776902400&v=beta&t=X2heMw7i82NxJoR1UQUDOHtGvRM_oueOKu63WKitjuA",
+        "linkedin": "https://linkedin.com/in/rofiahbn/",
+        "portfolios": [
+            {"title": "Portfolio in Notion", "type": "url", "link": "https://www.notion.so/Workfolio-2aa00a0bbc6e807a941fcf9f3af25714"},
+            {"title": "Github", "type": "url", "link": "https://github.com/rofiahbn/"}
+        ]
+    }
+]

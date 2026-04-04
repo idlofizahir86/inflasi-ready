@@ -10,6 +10,7 @@ use App\Http\Controllers\SimulationController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ApiSettingsController;
 use App\Http\Controllers\SupportController;
+use Illuminate\Support\Facades\File;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -63,6 +64,25 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::get('/portofolio_tim', function () {
+    $path = resource_path('data/team.json');
+
+    // Cek apakah file benar-benar ada di folder tersebut
+    if (!File::exists($path)) {
+        return "File tidak ditemukan di: " . $path;
+    }
+
+    $jsonContent = File::get($path);
+    $members = json_decode($jsonContent);
+
+    // Cek apakah JSON valid
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        return "Format JSON salah: " . json_last_error_msg();
+    }
+
+    return view('team_page', compact('members'));
 });
 
 require __DIR__.'/auth.php';
