@@ -1,4 +1,4 @@
-# 🌾 APPLICATION OVERVIEW - Inflasi-Ready Platform
+# 🌾 APPLICATION OVERVIEW - ARTHADATA Platform
 
 **Version**: 1.0.0  
 **Platform**: Web-based  
@@ -10,7 +10,7 @@
 
 ## 🎯 EXECUTIVE SUMMARY
 
-**Inflasi-Ready** adalah platform agregasi data harga komoditas pangan real-time yang dirancang untuk **mendemokrasikan transparansi ekonomi** di Indonesia. Platform ini menyediakan infrastruktur data yang matang dengan **dataset bersih, terstandardisasi, dan siap pakai** untuk mendukung pengambilan keputusan yang lebih baik di level UMKM, petani, dan pembuat kebijakan.
+**ARTHADATA** adalah platform agregasi data harga komoditas pangan real-time yang dirancang untuk **mendemokrasikan transparansi ekonomi** di Indonesia. Platform ini menyediakan infrastruktur data yang matang dengan **dataset bersih, terstandardisasi, dan siap pakai** untuk mendukung pengambilan keputusan yang lebih baik di level UMKM, petani, dan pembuat kebijakan.
 
 ### Problem Statement
 ```
@@ -20,7 +20,7 @@
    └─ Data mentah penuh anomali
    └─ Pengambilan keputusan terhambat
    
-✅ AFTER (Dengan Inflasi-Ready):
+✅ AFTER (Dengan ARTHADATA):
    └─ Data terpusat & accessible
    └─ Real-time monitoring
    └─ Clean & standardized
@@ -46,7 +46,7 @@
          ┌────────────┴─────────────┴────────────┐
          │                                        │
     ┌────▼──────────────────────────────────────▼─────┐
-    │        INFLASI-READY PLATFORM (WEB)             │
+    │        ARTHADATA PLATFORM (WEB)             │
     │                                                   │
     │  ┌──────────────────────────────────────────┐   │
     │  │         Vue.js 3 Frontend                 │   │
@@ -866,7 +866,7 @@ Deployment:
 ### Support Channels
 
 ```
-Email: support@inflasi-ready.id
+Email: support@ARTHADATA.id
 Phone: +62-21-XXXX-XXXX
 Hours: 09:00-17:00 WIB (Mon-Fri)
 
@@ -973,5 +973,5 @@ Data Privacy:
 **Last Updated**: 24 Maret 2026  
 **Next Review**: 24 Juni 2026
 
-For more information, visit: https://inflasi-ready.id  
-Contact: support@inflasi-ready.id
+For more information, visit: https://ARTHADATA.id  
+Contact: support@ARTHADATA.id

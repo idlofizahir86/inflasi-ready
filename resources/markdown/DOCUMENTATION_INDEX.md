@@ -1,6 +1,6 @@
-# 📚 INFLASI-READY DOCUMENTATION INDEX
+# 📚 ARTHADATA DOCUMENTATION INDEX
 
-**Platform**: Inflasi-Ready v1.0.0  
+**Platform**: ARTHADATA v1.0.0  
 **Status**: ✅ **PRODUCTION READY**  
 **Last Updated**: 2026-03-24
 
@@ -522,7 +522,7 @@ LOGIN_FIX_REPORT.md
 ```
 ╔═══════════════════════════════════════════════════════════╗
 ║                                                           ║
-║     INFLASI-READY DOCUMENTATION INDEX                    ║
+║     ARTHADATA DOCUMENTATION INDEX                    ║
 ║                                                           ║
 ║  📚 3,500+ Lines of Documentation                        ║
 ║  📖 10 Comprehensive Guides                              ║
@@ -542,4 +542,4 @@ LOGIN_FIX_REPORT.md
 
 ---
 
-*Thank you for using Inflasi-Ready Platform Documentation!*
+*Thank you for using ARTHADATA Platform Documentation!*

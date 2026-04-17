@@ -70,7 +70,7 @@ Copy-Item .env.example .env
 APP_NAME="Inflasi Ready"
 APP_ENV=production
 APP_DEBUG=false
-APP_URL=https://inflasi-ready.local
+APP_URL=https://ARTHADATA.local
 
 DB_CONNECTION=sqlite
 DB_DATABASE=database/database.sqlite
@@ -190,10 +190,10 @@ icacls bootstrap/cache /grant "%USERNAME%":F /t
 **For Apache**:
 ```apache
 <VirtualHost *:80>
-    ServerName inflasi-ready.local
-    DocumentRoot "d:\_IZR\__only_only_dopi\dopi_only\inflasi-ready\public"
+    ServerName ARTHADATA.local
+    DocumentRoot "d:\_IZR\__only_only_dopi\dopi_only\ARTHADATA\public"
     
-    <Directory "d:\_IZR\__only_only_dopi\dopi_only\inflasi-ready\public">
+    <Directory "d:\_IZR\__only_only_dopi\dopi_only\ARTHADATA\public">
         AllowOverride All
         Require all granted
         
@@ -211,8 +211,8 @@ icacls bootstrap/cache /grant "%USERNAME%":F /t
 ```nginx
 server {
     listen 80;
-    server_name inflasi-ready.local;
-    root d:\_IZR\__only_only_dopi\dopi_only\inflasi-ready\public;
+    server_name ARTHADATA.local;
+    root d:\_IZR\__only_only_dopi\dopi_only\ARTHADATA\public;
     index index.php;
 
     location / {
@@ -231,7 +231,7 @@ server {
 #### 5.3 Add Hosts Entry
 ```bash
 # C:\Windows\System32\drivers\etc\hosts
-127.0.0.1 inflasi-ready.local
+127.0.0.1 ARTHADATA.local
 ```
 
 ---
@@ -248,7 +248,7 @@ Invoke-WebRequest -Uri "http://localhost" -UseBasicParsing
 
 #### 6.2 Authentication Test
 ```
-1. Open browser: http://inflasi-ready.local/login
+1. Open browser: http://ARTHADATA.local/login
 2. See demo hint: "Email: akun-demo@pidi.id | Password: 123456"
 3. Enter credentials
 4. Click "Log in"
@@ -341,7 +341,7 @@ APP_DEBUG=false
 APP_ENV=production
 
 # Ensure HTTPS
-APP_URL=https://inflasi-ready.local
+APP_URL=https://ARTHADATA.local
 
 # Session security
 SESSION_SECURE_COOKIES=true
@@ -451,7 +451,7 @@ npm run build
 php artisan about
 npm run build --verbose
 
-Write-Host "✅ Deployment complete! Access the app at http://inflasi-ready.local"
+Write-Host "✅ Deployment complete! Access the app at http://ARTHADATA.local"
 ```
 
 ### Run Deployment
@@ -483,7 +483,7 @@ icacls storage /grant "%USERNAME%":F /t
 **Issue: "CORS errors" in browser console**
 ```bash
 # Update CORS configuration in config/cors.php
-'allowed_origins' => ['http://localhost', 'http://inflasi-ready.local'],
+'allowed_origins' => ['http://localhost', 'http://ARTHADATA.local'],
 'allowed_methods' => ['*'],
 'allowed_headers' => ['*'],
 'exposed_headers' => [],
@@ -541,7 +541,7 @@ Core Web Vitals Target:
 
 You'll know the deployment is successful when:
 
-1. ✅ Access http://inflasi-ready.local/ loads the login page
+1. ✅ Access http://ARTHADATA.local/ loads the login page
 2. ✅ Demo hint shows correct credentials
 3. ✅ Login with `akun-demo@pidi.id` / `123456` works
 4. ✅ Dashboard loads without errors
@@ -574,7 +574,7 @@ You'll know the deployment is successful when:
 
 ---
 
-**The Inflasi-Ready Platform is now PRODUCTION READY and FULLY DEPLOYED! 🎊**
+**The ARTHADATA Platform is now PRODUCTION READY and FULLY DEPLOYED! 🎊**
 
 For further information, consult:
 - `LOGIN_FIX_REPORT.md` - Login system details

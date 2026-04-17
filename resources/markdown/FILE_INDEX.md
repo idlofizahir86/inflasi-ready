@@ -1,4 +1,4 @@
-# 📑 Inflasi-Ready Platform - Complete File Index
+# 📑 ARTHADATA Platform - Complete File Index
 
 ## 📋 Documentation Files
 
@@ -370,7 +370,7 @@ routes/
 ### Environment Setup
 ```
 .env
-├── APP_NAME=Inflasi-Ready
+├── APP_NAME=ARTHADATA
 ├── APP_KEY=base64:...
 ├── APP_ENV=local|production
 ├── DB_CONNECTION=sqlite|mysql
@@ -428,7 +428,7 @@ config/
 
 ### Development
 ```bash
-cd d:\_IZR\__only_only_dopi\dopi_only\inflasi-ready
+cd d:\_IZR\__only_only_dopi\dopi_only\ARTHADATA
 npm run dev                  # Start dev server with hot reload
 php artisan serve           # Start Laravel server
 php artisan tinker          # Interactive shell

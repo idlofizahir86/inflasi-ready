@@ -1,4 +1,4 @@
-# 🚀 Quick Start Guide - Inflasi-Ready Platform
+# 🚀 Quick Start Guide - ARTHADATA Platform
 
 ## 📌 System Requirements
 
@@ -14,7 +14,7 @@
 
 ### 1. Clone/Navigate to Project
 ```bash
-cd d:\_IZR\__only_only_dopi\dopi_only\inflasi-ready
+cd d:\_IZR\__only_only_dopi\dopi_only\ARTHADATA
 ```
 
 ### 2. Install Dependencies

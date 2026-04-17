@@ -1,4 +1,4 @@
-# 📚 USER MANUAL - Inflasi-Ready Platform v1.0.0
+# 📚 USER MANUAL - ARTHADATA Platform v1.0.0
 
 **Version**: 1.0.0  
 **Last Updated**: 24 Maret 2026  
@@ -19,9 +19,9 @@
 
 ## 🎯 OVERVIEW APLIKASI
 
-### Apa itu Inflasi-Ready?
+### Apa itu ARTHADATA?
 
-**Inflasi-Ready** adalah platform web yang menyediakan **data harga komoditas pangan real-time** yang bersih, terstandardisasi, dan siap pakai. Platform ini dirancang khusus untuk membantu:
+**ARTHADATA** adalah platform web yang menyediakan **data harga komoditas pangan real-time** yang bersih, terstandardisasi, dan siap pakai. Platform ini dirancang khusus untuk membantu:
 
 - 👨‍🌾 **Petani** - Memantau harga pasar untuk optimasi jual-beli
 - 🏪 **UMKM Pangan** - Perencanaan inventory & strategi pricing
@@ -31,14 +31,14 @@
 ### Masalah yang Dipecahkan
 
 ```
-SEBELUM (Tanpa Inflasi-Ready):
+SEBELUM (Tanpa ARTHADATA):
 ❌ Data harga tersebar di berbagai sumber
 ❌ Sulit akses & tidak real-time
 ❌ Data mentah, tidak terstandar
 ❌ Anomali & error data
 ❌ Sulit buat keputusan bisnis
 
-SESUDAH (Dengan Inflasi-Ready):
+SESUDAH (Dengan ARTHADATA):
 ✅ Data terpusat & accessible
 ✅ Real-time updates
 ✅ Clean & standardized
@@ -510,7 +510,7 @@ Klik tab "📖 Documentation"
    ├─ Response: JSON array
    └─ Example:
       curl -H "Authorization: Bearer TOKEN" \
-           https://api.inflasi-ready.id/v1/commodities
+           https://api.ARTHADATA.id/v1/commodities
 
 2. Endpoint 2: POST /api/sync-price
    ├─ Deskripsi: Sync harga baru
@@ -518,7 +518,7 @@ Klik tab "📖 Documentation"
    ├─ Required: price, commodity_id, region_id
    ├─ Auth: API Key
    └─ Example:
-      curl -X POST https://api.inflasi-ready.id/v1/sync-price \
+      curl -X POST https://api.ARTHADATA.id/v1/sync-price \
            -H "X-API-Key: YOUR_KEY" \
            -d '{"price": 15000, "commodity_id": 1}'
 
@@ -528,7 +528,7 @@ Klik tab "📖 Documentation"
    ├─ Parameters: days, commodity_id
    ├─ Response: Historical data
    └─ Example:
-      curl https://api.inflasi-ready.id/v1/trends?days=30
+      curl https://api.ARTHADATA.id/v1/trends?days=30
 ```
 
 **Copy button:**
@@ -774,7 +774,7 @@ Option 1: Password Reset (jika email terverifikasi)
 └─ Set password baru
 
 Option 2: Contact Admin
-├─ Email ke: support@inflasi-ready.id
+├─ Email ke: support@ARTHADATA.id
 ├─ Sebutkan email account
 ├─ Tim support akan reset
 
@@ -1009,7 +1009,7 @@ Step 4: Check Database
 ├─ Verify data di database
 
 Step 5: Contact Support
-├─ Email error screenshot ke: support@inflasi-ready.id
+├─ Email error screenshot ke: support@ARTHADATA.id
 ├─ Include: browser, device, steps to reproduce
 └─ Tim akan bantu investigate
 ```
@@ -1020,7 +1020,7 @@ Step 5: Contact Support
 
 ### Hubungi Tim Support
 
-**Email**: support@inflasi-ready.id  
+**Email**: support@ARTHADATA.id  
 **Phone**: +62-21-XXXX-XXXX  
 **Support Hours**: Monday-Friday, 09:00-17:00 WIB  
 
@@ -1093,9 +1093,9 @@ Screenshots/Logs:
 - ⚡ [Quick Start Guide](./QUICK_START.md)
 
 ### Community
-- 💬 [Forum Komunitas](https://forum.inflasi-ready.id)
-- 📱 [Telegram Group](https://t.me/inflasi-ready-id)
-- 🐦 [Twitter Updates](https://twitter.com/inflasi-ready)
+- 💬 [Forum Komunitas](https://forum.ARTHADATA.id)
+- 📱 [Telegram Group](https://t.me/ARTHADATA-id)
+- 🐦 [Twitter Updates](https://twitter.com/ARTHADATA)
 
 ---
 
@@ -1151,4 +1151,4 @@ Screenshots/Logs:
 
 ---
 
-Untuk update atau feedback tentang manual ini, hubungi: support@inflasi-ready.id
+Untuk update atau feedback tentang manual ini, hubungi: support@ARTHADATA.id
